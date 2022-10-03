@@ -15,7 +15,7 @@
     -   [2. Wektory i ich tworzenie](#2-wektory-i-ich-tworzenie)
     -   [3. Indeksowanie wektorów](#3-indeksowanie-wektorów)
     -   [4. Ładowanie danych do R. Typy
-        danych](#4-ładowanie-danych-do-r.-typy-danych)
+        danych](#4-ładowanie-danych-do-r-typy-danych)
     -   [5. Dane jako macierz -
         indeksowanie](#5-dane-jako-macierz---indeksowanie)
     -   [6. Filtrowanie danych](#6-filtrowanie-danych)
