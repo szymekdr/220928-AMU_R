@@ -1,25 +1,25 @@
 -   [Zanim zaczniemy](#zanim-zaczniemy)
     -   [0. Przydatne zasoby pomocowe w pracy z R - część
-        pierwsza](#przydatne-zasoby-pomocowe-w-pracy-z-r---część-pierwsza)
+        pierwsza](#0-przydatne-zasoby-pomocowe-w-pracy-z-r---część-pierwsza)
     -   [0. Katalog roboczy](#0-katalog-roboczy)
--   [A. Podstawy składni `R`](#a.-podstawy-składni-r)
-    -   [1. R działa w oparciu o funkcje](#r-działa-w-oparciu-o-funkcje)
+-   [A. Podstawy składni `R`](#a-podstawy-składni-r)
+    -   [1. R działa w oparciu o funkcje](#1-r-działa-w-oparciu-o-funkcje)
     -   [2. Skąd wiedzieć jakie argumenty ma
-        funkcja?](#skąd-wiedzieć-jakie-argumenty-ma-funkcja)
+        funkcja?](#2-skąd-wiedzieć-jakie-argumenty-ma-funkcja)
     -   [3. Istotne cechy składni języka
-        `R`](#istotne-cechy-składni-języka-r)
-    -   [4. R to kalkulator na sterydach](#r-to-kalkulator-na-sterydach)
--   [B. Zapisywanie pracy](#b.-zapisywanie-pracy)
--   [C. Zmienne i struktury danych](#c.-zmienne-i-struktury-danych)
-    -   [1. Tworzenie zmiennych](#tworzenie-zmiennych)
-    -   [2. Wektory i ich tworzenie](#wektory-i-ich-tworzenie)
-    -   [3. Indeksowanie wektorów](#indeksowanie-wektorów)
+        `R`](#3-istotne-cechy-składni-języka-r)
+    -   [4. R to kalkulator na sterydach](#4-r-to-kalkulator-na-sterydach)
+-   [B. Zapisywanie pracy](#b-zapisywanie-pracy)
+-   [C. Zmienne i struktury danych](#c-zmienne-i-struktury-danych)
+    -   [1. Tworzenie zmiennych](#1-tworzenie-zmiennych)
+    -   [2. Wektory i ich tworzenie](#2-wektory-i-ich-tworzenie)
+    -   [3. Indeksowanie wektorów](#3-indeksowanie-wektorów)
     -   [4. Ładowanie danych do R. Typy
-        danych](#ładowanie-danych-do-r.-typy-danych)
+        danych](#4-ładowanie-danych-do-r.-typy-danych)
     -   [5. Dane jako macierz -
-        indeksowanie](#dane-jako-macierz---indeksowanie)
-    -   [6. Filtrowanie danych](#filtrowanie-danych)
-    -   [7. Brakujące dane](#brakujące-dane)
+        indeksowanie](#5-dane-jako-macierz---indeksowanie)
+    -   [6. Filtrowanie danych](#6-filtrowanie-danych)
+    -   [7. Brakujące dane](#7-brakujące-dane)
 
 # Zanim zaczniemy
 
