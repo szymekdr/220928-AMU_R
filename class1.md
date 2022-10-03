@@ -1,7 +1,7 @@
 -   [Zanim zaczniemy](#zanim-zaczniemy)
     -   [0. Przydatne zasoby pomocowe w pracy z R - część
         pierwsza](#przydatne-zasoby-pomocowe-w-pracy-z-r---część-pierwsza)
-    -   [0. Katalog roboczy](#0.-katalog-roboczy)
+    -   [0. Katalog roboczy](#0-katalog-roboczy)
 -   [A. Podstawy składni `R`](#a.-podstawy-składni-r)
     -   [1. R działa w oparciu o funkcje](#r-działa-w-oparciu-o-funkcje)
     -   [2. Skąd wiedzieć jakie argumenty ma
