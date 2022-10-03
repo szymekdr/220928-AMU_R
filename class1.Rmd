@@ -8,7 +8,7 @@ output:
       toc_depth: 3
   md_document:
       variant: gfm
-      toc: false
+      toc: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -16,15 +16,6 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 echoing = TRUE
-```
-```{r mdTOC, echo=FALSE}
-mdTOC <- grepl("markdown", knitr::opts_knit$get("rmarkdown.pandoc.to") )
-```
-
-```{r, engine='bash', results='asis',echo=FALSE, eval=mdTOC}
-# toc-template.txt is somewhere in the path and only contains a single line:: $toc$
-pandoc --template=toc-template.txt --toc --to html --from markdown testTOC.Rmd |\
-pandoc --to markdown --from html
 ```
 
 # Zanim zaczniemy
