@@ -1,0 +1,553 @@
+---
+title: "Class 2"
+author: "Szymek Drobniak"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::robobook:
+      code_folding: hide
+      toc_depth: 3
+  md_document:
+      variant: gfm
+      toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = T)
+if(knitr::is_html_output(excludes = c("markdown", "gfm"))) {
+  echoing = TRUE
+} else {
+  echoing = FALSE
+}
+```
+
+# Zanim zaczniemy
+
+## 0. Przydatne zasoby pomocowe w pracy z `R` - część pierwsza
+
+-   [Podręcznik `tidyverse`](https://r4ds.had.co.nz/)
+-   [`dplyr` cheat-sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
+-   [Tidy data cheat-sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/tidyr.pdf)
+-   [Automatyzacja z `purrr`](https://raw.githubusercontent.com/rstudio/cheatsheets/main/purrr.pdf)
+-   [Ściąga z obsługi dat i czasu w `lubridate`](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf)
+-   [Podsumowania danych z `overvieR`](https://raw.githubusercontent.com/rstudio/cheatsheets/main/overviewR.pdf)
+-   [Jak uczyć `R`?](https://raw.githubusercontent.com/rstudio/cheatsheets/main/teachR.pdf)
+-   [Ściąga z podstawowych pojęć statystycznych](https://stanford.edu/~shervine/teaching/cme-106/cheatsheet-statistics)
+-   [Wybór testu statystycznego](https://towardsdatascience.com/demystifying-statistical-analysis-1-a-handy-cheat-sheet-b6229bf992cf)
+-   [Ściąga z wyrażeń regularnych](https://www.rexegg.com/regex-quickstart.html)
+
+***
+
+# A. `tidyverse` oraz `dplyr` - "porządne dane"
+
+```{r echo = echoing, class.source = 'fold-show'}
+library(tidyverse)
+```
+
+Ekosystem `tidyverse` to niejako "państwo w państwie" - rodzaj dialektu `R` w mocny sposób ingerujący w sposób, w jaki obsługiwane są pewne stałe elementy języka. Podstawowa rola `tidyverse` to stworzenie wspólnego i spójnego języka, w którym można opisywać standardowe struktury danych (`tibble`, `dplyr`), automatyzować funkcje i działania (`purrr`) oraz standardowo wizualizować dane w oparciu o gramatykę grafiki (`ggplot2`).
+
+![](tidyverse.png)
+
+
+## 1. Filtrowanie danych: `filter()`
+
+Filtrowanie odbywa się za pomocą par `zmienna OPERATOR warunek` - podobnie jak przy filtrowaniu za pomocą indeksów. `dplyr` upraszcza wszystko pozwalając nam bezpośrednio odwoływać się do nazw zmiennych.
+
+Przefiltrujmy `dane` tak, by wyświetlić tylko potomstwo matki nr. *R187528*:
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane <- read.table(file = "BTdata.csv",
+                   sep = ",", header = T,
+                   stringsAsFactors = T)
+
+filter(dane, dam == "R187528")
+```
+
+Czy wszystkie młode wychowywały się w jednym gnieździe (`fosternest`)?
+
+```{r echo = echoing, class.source = 'fold-show'}
+unique(filter(dane, dam == "R187528")$fosternest)
+```
+
+Wybierzmy spośród tych piskląt tylko takie, których skok przekracza 14.50 mm, lub masa przekracza, lub jest równa, 9.5 g:
+
+```{r echo = echoing, class.source = 'fold-show'}
+filter(dane, dam == "R187528" & (tarsus > 14.50 | weight >= 9.5))
+```
+
+**Zadanie** Wybierz wszystkie obserwacje, które są samicami i mają kolor płaszcza (`back`) o dominancie barwnej 550 nm (w zaokrągleniu w dół do liczb całkowitych; użyj `floor()`), oraz wykluły się (`hatchdate`) przed dniem 45 (15 maja). Ile jest takich obserwacji?
+
+**Spodziewany wynik**
+```{r echo = echoing}
+filter(dane, sex == "Fem" & floor(back) == 550 & hatchdate < 45)
+nrow(filter(dane, sex == "Fem" & floor(back) == 550 & hatchdate < 45))
+```
+
+**Zadanie** Zmodyfikuj powyższy filtr, by wyciągnąć samice o danej dominancie barwnej *LUB* te wyklute przed 15 maja. Ile jest takich obserwacji?
+
+**Spodziewany wynik**
+```{r echo = echoing}
+nrow(filter(dane, sex == "Fem" & (floor(back) == 550 | hatchdate < 45)))
+```
+
+$\blacksquare$
+
+## 2. Sortowanie za pomocą `arrange()`
+
+Posortujmy dane mające dominantę barwną 550 nm (jak wyżej) oraz wyklute przed 15 maja wg długości skoku.
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane2 <- filter(dane, floor(back) == 550 & hatchdate < 45)
+arrange(dane2, tarsus)
+```
+
+Zmodyfikujmy sortowanie tak, by uporządkowanie według długości skoku odbywało się *w obrębie* każdej matki genetycznej (`dam`).
+
+```{r echo = echoing, class.source = 'fold-show'}
+arrange(dane2, dam, tarsus)
+```
+
+**Zadanie** Posortuj cały zestaw danych według wagi ciała, a następnie według gniazda fosternest. Alfabetycznie - jakie gniazda wypadają w najniższej kategorii wagowej? (Spróbuj wyświetlić tylko pierwsze wiersze posortowanego zestawu danych, reszty nie potrzebujesz - np. 10-20 pierwszych).
+
+**Spodziewany efekt**
+```{r echo = echoing}
+arrange(dane, weight, fosternest)[1:20,]
+```
+
+**Zadanie** Zmodyfikuj powyższe wyszukiwanie zmieniając cechę na skok, oraz sortując malejąco (użyj modyfikatora `desc` na zmiennej `tarsus`).
+
+**Spodziewany wynik**
+```{r echo = echoing}
+arrange(dane, desc(tarsus), fosternest)[1:20,]
+```
+
+$\blacksquare$
+
+## 3. Selekcja zmiennych dzięki `select()`
+
+`select()` pozwala wybierać pojedyncze kolumny z danych, albo za pomocą ich pełnej nazwy albo za pomocą modyfikatorów dopasowujących kolumny do zadanych warunków:
+
+* `starts_with()` - dopasowuje kolumna na podstawie początkowych znaków
+* `ends_with()` - podobnie, jak wyżej, ale dla znaków końcowych
+* `contains()` - dopasowuje na podstawie ciągu znaków zawartego gdzieś w nazwie kolumny
+* `matches()` - dopasowuje kolumny na podstawie wyrażenia regularnego (patrz linki na górze)
+
+Wybierz z zestawu danych kolumny od 1 do 4 oraz 8 (we wszystkich przykładach wyświetlamy pierwszych 20 wierszy za pomocą `head()`):
+
+```{r echo = echoing, class.source = 'fold-show'}
+head(select(dane, 1:4, 8),
+     20)
+```
+
+Wybierz kolumny zawierające pomiary strukturalne (skok oraz dwa pomiary dzioba):
+
+```{r echo = echoing, class.source = 'fold-show'}
+head(select(dane, tarsus, starts_with("bill")),
+     20)
+```
+
+Przenieś kolumnę `hatchdate` na sam koniec tabeli:
+
+```{r echo = echoing, class.source = 'fold-show'}
+head(select(dane, -hatchdate, everything(), hatchdate),
+     20)
+```
+
+**Zadanie** Usuń z tabeli danych kolumny z pomiarami morfometrycznymi (skok, waga, dziób).
+
+**Spodziewany wynik**
+```{r echo = echoing}
+head(select(dane, -tarsus, weight, -starts_with("bill")),
+     20)
+```
+
+**Zadanie** Pozostaw w tabeli tylko kolumny zawierające w nazwie przynajmniej jedno "e".
+
+**Spodziewany wynik**
+```{r echo = echoing}
+head(select(dane, contains("e")),
+     20)
+```
+
+$\blacksquare$
+
+## 4. Tworzenie nowych zmiennych dzięki `mutate()`
+
+Stwórz zmienną *bill_ratio* będącą stosunkiem długości dzioba do jego głębokości. Użyj do tego skróconego zestawu `dane2`, w którym pozostawisz tylko kolumny morfometryczne oraz ID matki (`dam`) oraz gniazdo (`fosternest`):
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane2 <- select(dane, dam, fosternest, tarsus, weight, starts_with("bill"))
+head(mutate(dane2, bill_ratio = round(bill_length/bill_depth, 3)),
+     20)
+```
+
+**Zadanie** Za pomocą funkcji `paste()` stwórz zmienną zawierającą kombinację ID matki (`dam`) i gniazda wychowywania (`fosternest`). Nazwij tą zmienną "crossfoster".
+
+**Spodziewany wynik**
+```{r echo = echoing}
+head(mutate(dane2, crossfoster = paste(dam, fosternest, sep = "_")),
+     20)
+```
+
+$\blacksquare$
+
+## 5. Grupowanie obserwacji przez `group_by()`
+
+Grupowanie pozwala stworzyć w zestawie danych "podzbiory" traktowane jako oddzielne pule przy liczeniu określonych podsumowań.
+
+Porównaj taką operację:
+
+```{r echo = echoing, class.source = 'fold-show'}
+head(mutate(dane2, mean_tars = mean(tarsus)),
+     20)
+```
+
+z taką:
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane3 <- group_by(dane2, dam)
+head(mutate(dane3, mean_tars = mean(tarsus)),
+     20)
+```
+
+Aby lepiej zobaczyć co właściwie się tutaj stało - posortujmy wynikową tabelę wg ID matki:
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane3 <- group_by(dane2, dam)
+dane3 <- mutate(dane3, mean_tars = mean(tarsus))
+arrange(dane3, dam)
+```
+
+Czy zauważyłeś zmianę tabeli danych na nowy typ obiektu zwany `tibble`?
+
+Wykonanie powyższej serii operacji bardzo ułatwia użycie tzw. operatora **pipe**, pozwalającego łączyć dłuższe ciągi operacji w jeden spójny "potok":
+
+```{r echo = echoing, class.source = 'fold-show'}
+group_by(dane2, dam) %>%
+  mutate(mean_tars = mean(tarsus)) %>%
+  arrange(dam)
+```
+
+**Zadanie** Korzystając z operatora `%>%` zmodyfikuj powyższy ciąg tak, by na końcu powstała tabela o następujących właściwościach:
+
+1. grupowanie ze względu na `fosternest`;
+2. obliczenie średniej wagi piskląt w obrębie każdego gniazda wychowywania;
+3. usunięcie z tabeli zmiennych niepotrzebnych (cechy dzioba)
+4. obliczenie stosunku wagi średniej w danym gnieździe do średniej wagi w całej populacji. (*Uwaga!* Ten etap wymaga usunięcia grupowania za pomocą funkcji `ungroup()`)
+
+Aby wyświetlić więcej niż 10 wierszy tabeli dodaj do potoku funkcji `print()` z opcją `n = 30` (jeśli chcesz wyświetlić 30 wierszy). Dlaczego w trakcie obliczeń musimy zastosować `ungroup()`? Co się stanie, jeśli tego nie zrobimy?
+
+**Spodziewany wynik**
+```{r echo = echoing}
+group_by(dane2, fosternest) %>%
+  mutate(mean_weight = mean(weight)) %>%
+  select(-starts_with("bill")) %>%
+  arrange(fosternest) %>%
+  ungroup() %>%
+  mutate(mean_ratio = mean_weight/mean(weight)) %>%
+  print(n = 30)
+```
+
+$\blacksquare$
+
+## 6. Podsumowanie z `summarise()`
+
+Przefiltruj `dane` tak, by zostały w nich tylko ptaki ze znaną płcią (`sex == "Male"` lub `sex == "Fem"`) i podsumuj je wyliczając dla obserwacji średnią długość skoku, liczbę obserwacji oraz błąd standardowy skoku (liczony jako *SD/sqrt(N)*):
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane %>%
+  filter(sex != "UNK") %>%
+  summarise(mean_t = mean(tarsus),
+            N = n(),
+            se_t = sd(tarsus)/sqrt(n()))
+```
+
+**Zadanie** Powtórz powyższe obliczenia, ale dla ptaków w każdej możliwej kombinacji `sex` oraz `habitat` (tzn. samce w lesie, samce w parku, etc.)
+
+**Spodziewany wynik**
+```{r echo = echoing}
+dane %>%
+  filter(sex != "UNK") %>%
+  group_by(sex, habitat) %>%
+  summarise(mean_t = mean(tarsus),
+            N = n(),
+            se_t = sd(tarsus)/sqrt(n()))
+```
+
+$\blacksquare$
+
+## 7. Szerokie i długie zestawy danych
+
+Oryginalny zestaw `dane` jest typu "długiego": każda obserwacja to jeden osobnik, a zmienne kategoryczne zajmują po jednej kolumnie zawierającej przypisania każdego osobnika do określonej kategorii. Często jednak dane, które dostajemy są typu "szerokiego" (np. grupy eksperymentalne czy płcie znajdują się w osobnych kolumnach). Między tymi dwoma typami danych można sprawnie się przemieszczać za pomocą funkcji `pivot_wider()` i `pivot_longer()`.
+
+By dowiedzieć się o nich nieco więcej - zajrzyj tutaj:
+
+```{r echo = echoing, class.source = 'fold-show', eval = F}
+vignette("pivot")
+```
+
+Stwórzmy przykładowy zestaw danych zawierający średnie ciężary piskląt i ich wariancje według płci, pogrupowane według `fosternest`:
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane_l <- dane %>%
+  filter(sex != "UNK") %>%
+  group_by(fosternest, sex) %>%
+  summarise(mean_w = mean(weight), var_w = var(weight))
+```
+
+Taki zestaw danych w formie długiej możemy przerobić na szeroki tworząc osobne kolumny dla samców i samic w danym gnieździe.
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane_l %>%
+  pivot_wider(names_from = sex, values_from = mean_w)
+```
+
+Powyższa komenda nie zadziałała tak, jak chcemy, bo pozostawiliśmy w danych kolumnę z wariancją, zawierającą unikatowe wpisy "dublujące" wiersze z każdym `fosternest`. Musimy albo się tej kolumny pozbyć, albo też uwzględnić ją w `pivot_wider`:
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane_l %>%
+  select(-var_w) %>%
+  pivot_wider(names_from = sex, values_from = mean_w)
+
+dane_l %>%
+  pivot_wider(names_from = sex, values_from = c(mean_w, var_w))
+```
+
+Zapiszmy dane w nowym obiekcie `dane_w`.
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane_w <- dane_l %>%
+  select(-var_w) %>%
+  pivot_wider(names_from = sex, values_from = mean_w)
+```
+
+**Zadanie** Spróbuj odwrócić działanie zamieniając "szeroki" styl danych na "długi" - korzystając z funkcji `pivot_longer()`. Nazwij zmienną "płeć" `animal_sex`, a zmienną z ciężarem ciała - 'body_weight`.
+
+**Spodziewany wynik**
+```{r echo = echoing}
+dane_w %>%
+  pivot_longer(cols = c(Fem, Male),
+               names_to = "animal_sex",
+               values_to = "body_weight")
+```
+
+# B. Prosta statystyka
+
+## 1. Czy samce są większe od samic?
+
+W `R` proste testy statystyczne wykonujemy za pomocą serii funkcji z rodziny `__.test` - np. takich:
+
+Funkcja|Test|Zastosowanie
+-------|----|------------
+`t.test()`|test *t*-Studenta|porównywanie średnich
+`var.test()`|test *F*|porównywanie wariancji (zmienności)
+`cor.test()`|test korelacji|testowanie siły związku między zmiennymi
+`chisq.test()`|test $\chi^2$|testowanie zmiennych kategorycznych i tabel wielopolowych
+`kruskal.test()`|test Kruskall-Wallisa|nieparametryczne porównywanie grup
+`wilcox.test`|test Wilcoxona|nieparametryczny test par wiązanych
+
+Sprawdźmy za pomocą testu korelacji czy waga piskląt związana jest istotnie z ich długością skoku. Jaka jest: wartość *p* testu, obliczona korelacja i jej 95% przedział ufności? Czy odrzucasz hipotezę zerową? Jaka ona jest?
+
+```{r echo = echoing, class.source = 'fold-show'}
+test1 <- cor.test(dane$tarsus, dane$weight)
+test1
+test1$p.value
+```
+
+Prosty wykres rozrzutu dobrze obrazuje otrzymany wynik:
+
+```{r echo = echoing, class.source = 'fold-show'}
+plot(dane$tarsus, dane$weight,
+     xlab = "Weight", ylab = "Tarsus")
+```
+
+**Zadanie** Wiedząc, że opcja wykresu `col` może m.in. przyjmować wartości będące zmiennymi kategorycznymi - jak spróbujesz dodać do wykresy informację o płci, zmieniającą kolor obserwacji w zależności od płci? **Wskazówka** Zamiast `dane$zmienna` - użyj `jitter(dane$zmienna, 3)`.
+
+**Sugerowany wynik**
+
+```{r echo = echoing}
+plot(jitter(dane$tarsus, 3), jitter(dane$weight, 3),
+     xlab = "Weight", ylab = "Tarsus",
+     col = dane$sex)
+```
+
+**Zadanie** Z wykresu jasno wynika, że samce powinny być większe od samic pod względem zarówno masy, jak i skoku. Przetestujmy tą różnicę za pomocą testu *t*-Studenta. Wykonaj go ekstrahując z danych skok samic, a potem samców (za pomocą funkcji `subset()`, lub w inny znany Ci sposób). Dla przypomnienia: `subset(dane, habitat == "forest")$weight` pozwoliłby wyciągnąć z danych wagi ptaków żyjących w lesie. Wykonaj go w podobny sposób, jak `cor.test()`. Jaka jest Twoja decyzja: odrzucasz czy przyjmujesz hipotezę zerową o braku różnic między płciami?
+
+**Sugerowany wynik**
+
+```{r echo = echoing}
+test2 <- t.test(subset(dane, sex == "Male")$tarsus,
+                subset(dane, sex == "Fem")$tarsus)
+test2
+```
+
+W przypadku danych w formacie "długim" posługiwanie się funkcją `t.test()` jest znacznie łatwiejsze w konwencji tzw. formuły. *Formuła* to rodzaj wyrażenia matematycznego, które pozwala zapisać zależności istniejące między zmienną/zmiennymi zależną/zależnymi i niezależną/niezależnymi. W przypadku prostej zależności, gdzie mamy jedną zmienną zależną `y` (np. skok) i jedną zmienną niezależną `x` (np. płeć) - formułę możemy zapisać jako `y ~ x`.
+
+**Zadanie** Powtórz powyższy test *t*-Studenta używają notacji formuły zamiast dwóch osobnych wektorów zawierających dane samic i samców. Aby konwencja ta zadziałała będziesz potrzebować wyrażenia opisującego zależność skoku od płci (`tarsus ~ sex`) oraz dodatkowej opcji `data` w `t.test()` wskazującej na to z jakiego obiektu pochodzą dane (zajrzyj do `?t.test()` w razie wątpliwości). **Uwaga!** W dalszym ciągu musisz usunąć z danych obserwacje `sex == "UNK"` - w teście *t*-Studenta możemy porównywać tylko 2 grupy.
+
+**Sugerowany wynik**
+
+```{r echo = echoing}
+test3 <- t.test(tarsus ~ sex, data = subset(dane, sex != "UNK"))
+test3
+```
+
+**Zadanie** Przeprowadzany test *t*-Studenta zakłada, że wariancje porównywanych grupo są różne. Przeprowadzając test funkcją `var.test()` zweryfikuj to założenie, testując hipotezę zerową, że wariancje są równe. Składnia testu jest bardzo podobna do tej użytej powyżej z wykorzystaniem formuły.
+
+**Sugerowany wynik**
+
+```{r echo = echoing}
+test4 <- var.test(tarsus ~ sex, data = subset(dane, sex != "UNK"))
+test4
+```
+
+$\blacksquare$
+
+## 2. Czy samic lub samców jest więcej w lesie/w parku?
+
+Aby odpowiedzieć na to pytanie - potrzebujemy podsumowania zliczającego samce i samice w dwóch rodzajach siedliska. Najłatwiej uzyskać takie podsumowanie stosując funkcję `table()`:
+
+```{r echo = echoing, class.source = 'fold-show'}
+dane2 <- filter(dane, sex != "UNK") %>% gdata::drop.levels()
+sex_hab <- table(dane2$sex, dane2$habitat)
+sex_hab
+```
+
+**Zadanie** Wiedząc, że funkcja `chisq.test` potrafi jako jeden z argumentów przyjmować całą tabelę wielopolową - przeprowadź test chi-kwadrat hipotezy badającej zależność występowania ptaków w 2 siedliskach w zależności od płci. Czy zależność ta jest istotna? Co znajduje się w zbiorze `stdres` powstałego obiektu?
+
+**Spodziewany wynik**
+```{r echo = echoing}
+test5 <- chisq.test(sex_hab)
+test5
+test5$stdres
+```
+
+$\blacksquare$
+
+## 3. Czy długość skoku zależy od daty wyklucia? Regresja prosta
+
+Sprawdźmy to najpierw wizualnie:
+
+```{r echo = echoing, class.source = 'fold-show'}
+plot(tarsus ~ hatchdate, data = dane)
+```
+
+Nie wygląda to na zbyt silną zależność - możemy jednak sprawdzić to formalnie za pomocą modelu liniowego w najprostszej jego wersji. Model liniowy, jaki będziemy testować wygląda następująco:
+
+$$y_i = a + bx_i + e_i$$
+czyli
+
+$$tarsus_i = a + b*hatchdate_i + e_i$$
+Do jego obliczenia służy funkcja `lm()` (**l**inear **m**odel) - co zaskakujące przyjmuje ona argumenty w sposób bardzo podobny do np. `t.test()` (korzystając z konwencji formuły).
+
+**Zadanie** Stosując analogię wywołania funkcji `t.test()`, użyj `lm()` by przetestować zależność długości skoku sikory modrej od daty klucia (`tarsus ~ hatchdate`). W pierwszym kroku stwórz obiekt `model` zawierający wynik działania funkcji `lm()`. W drugim kroku użyj `summary()` by podejrzeć wynik działania obliczeń.
+
+**Sugerowany wynik**
+```{r echo = echoing}
+model <- lm(tarsus ~ hatchdate, data = dane)
+summary(model)
+```
+
+Przyjrzyj się wykresom, które powstają dzięki wywołaniu funkcji
+
+```{r echo = echoing, class.source = 'fold-show'}
+plot(model)
+```
+
+Pozwalają one ocenić, czy nasz model statystyczny spełnia założenia regresji prostej. Który z wykresów najlepiej oddaje test wizualny założenia zakładającego normalność wartości resztkowych modelu?
+
+$\blacksquare$
+
+# C. Expressem przez *bootstrapping*
+
+Do tej pory do naszych analiz wykorzystywaliśmy metody parametryczne - możemy jednak spróbować wykorzystać inną, prostszą metodę, która pozwoli nam uwolnić się od ograniczeń rozkładowych naszych danych. Spójrzmy na przykład na rozkład zmiennej `hatchdate` - nie jest on najpiękniejszy i na pierwszy rzut oka nie przypomina on zgrabnego rozkładu normalnego:
+
+```{r echo = echoing, class.source = 'fold-show'}
+hist(dane$hatchdate, 15)
+```
+
+Spróbujmy skonstruować test oparty na bootstrappingu, którym sprawdzimy czy ptaki z lasu (`forest`) różnią się pod kątem daty klucia od ptaków z parków (`park`). Szybki rzut oka na wykres pudełkowy nie wskazuje na zbyt wielkie różnice.
+
+```{r echo = echoing, class.source = 'fold-show'}
+plot(hatchdate ~ habitat, data = dane)
+```
+
+1. Do skonstruowania bootstrappingu wykorzystamy pętlę `for`, która pozwala powtarzać jakąś operację wiele razy. Jeśli chcielibyśmy np. wydrukować na ekranie (`print()`) jakiś tekst pięć razy - moglibyśmy osiągnąć to w następujący sposób:
+
+```{r echo = echoing, class.source = 'fold-show'}
+for(i in 1:5) {
+  print("Tekst najbardziej oryginalny!")
+}
+```
+
+Zauważ, że pętla for wykorzystuje jakąś zmienną (tutaj `i`), zmieniając jej wartość w zadanym zakresie (tutaj `1:5`) i za każdym razem (dla każ∂ego `i`) wykonując jakieś działania ujęte wewnątrz `{}`.
+
+2. Potrzebna nam będzie również metoda losowego wybierania pewnych wierszy z naszych oryginalnych danych - ze zwracaniem. Idealnie do tego nadaje się funkcja `sample()`. Zobaczmy, jak losuje ona zadaną liczbę wartości (10) z podanej listy (liczby 1 do 20), ze zwracaniem (`replace = T`):
+
+```{r echo = echoing, class.source = 'fold-show'}
+sample(1:20, size = 10, replace = T)
+```
+
+**Uwaga!** Funkcja ta używa generatora liczb pseudolosowych - więc u każdego wynik tej operacji będzie inny!
+
+3. Wreszcie - musimy mieć naszą statystykę testową. Niech będzie nią różnica między średnią datą klucia w sikor leśnych i parkowych $d_0$ - jeśli wynosi ona zero, ptaki mają identyczne daty klucia:
+
+```{r echo = echoing, class.source = 'fold-show'}
+d0 <- mean(filter(dane, habitat == "forest")$hatchdate) -
+  mean(filter(dane, habitat == "park")$hatchdate)
+d0
+```
+
+Ujemna różnica wskazuje na nieco wyższą wartość (późniejsze klucie) w parku - pytanie, czy istotnie późniejsze?
+
+Oto co powinna robić nasza procedura bootstrappingu:
+
+* Krok 1: wylosuj z zestawu danych k = `r nrow(dane)` obserwacji (wierszy) ze zwracaniem (tyle wierszy składa się na oryginalny zestaw danych).
+* Krok 2: dla każdego z tych wylosowanych zestawów policz jego własną statystykę `d` - różnicę w średniej dacie klucia między lasem i parkiem.
+* Krok 3: Powtórz całą procedurę N = 1000 razy (jest to arbitralna wielkość, im więcej - tym lepiej). Za każdym razem zapisz wynik do zbiorczego obiekty `out`.
+* Krok 4: Skonstruuj rozkład statystyki `d` i zobacz gdzie wypada w niej jej oryginalna (oparta na wejściowych danych) wartość `d0`.
+
+```{r echo = echoing, class.source = 'fold-show'}
+N <- 1000 # liczba zakładanych powtórzeń
+k <- nrow(dane) # wielkość oryginalnego zbioru danych
+
+# oryginalna statystyka testowa
+d0 <- mean(filter(dane, habitat == "forest")$hatchdate) -
+  mean(filter(dane, habitat == "park")$hatchdate)
+
+# obiekt wynikowy przygotowany na N=1000 końcowych wartości
+out <- numeric(N)
+
+for(i in 1:N) {
+  
+  # losujemy 828 wierszy, ze zwracaniem
+  # a oryginalnej puli unikatowych 828 wierszy danych
+  rows <- sample(1:k, size = k, replace = T)
+  
+  # tworzymy tymczasowe dane wewnątrz pętli
+  # zawierające tylko wylosowane wiersze
+  temp_dane <- dane[rows, ]
+  
+  # oblicza na podstawie tak przygotowanych danych
+  # tymczasową statystykę testową dla powtórzenia
+  # nr i pętli
+  d_temp <- mean(filter(temp_dane, habitat == "forest")$hatchdate) -
+    mean(filter(temp_dane, habitat == "park")$hatchdate)
+  
+  # zapisujemy wyliczoną statystykę
+  # do zmiennej out w miejscu i
+  out[i] <- d_temp
+  
+}
+```
+
+Wyświetlmy rozkład symulowanej statystyki `d` oraz położenie `d0` na rozkładzie:
+
+```{r echo = echoing, class.source = 'fold-show'}
+hist(out, 50)
+abline(v = d0, lwd = 2)
+abline(v = 0, col = "red", lwd = 2, lty = 2)
+```
+
+Jak podejdziesz to odpowiedzi na pytanie - czy ta symulacja wskazuje na istotną statystycznie różnicę między symulowaną statystyką a wartością zero?
