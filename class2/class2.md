@@ -1,29 +1,29 @@
 -   [Zanim zaczniemy](#zanim-zaczniemy)
     -   [0. Przydatne zasoby pomocowe w pracy z `R` - część
-        pierwsza](#przydatne-zasoby-pomocowe-w-pracy-z-r---część-pierwsza)
+        pierwsza](#0-przydatne-zasoby-pomocowe-w-pracy-z-r---część-pierwsza)
 -   [A. `tidyverse` oraz `dplyr` - “porządne
-    dane”](#a.-tidyverse-oraz-dplyr---porządne-dane)
-    -   [1. Filtrowanie danych: `filter()`](#filtrowanie-danych-filter)
+    dane”](#a-tidyverse-oraz-dplyr---porządne-dane)
+    -   [1. Filtrowanie danych: `filter()`](#1-filtrowanie-danych-filter)
     -   [2. Sortowanie za pomocą
-        `arrange()`](#sortowanie-za-pomocą-arrange)
+        `arrange()`](#2-sortowanie-za-pomocą-arrange)
     -   [3. Selekcja zmiennych dzięki
-        `select()`](#selekcja-zmiennych-dzięki-select)
+        `select()`](#3-selekcja-zmiennych-dzięki-select)
     -   [4. Tworzenie nowych zmiennych dzięki
-        `mutate()`](#tworzenie-nowych-zmiennych-dzięki-mutate)
+        `mutate()`](#4-tworzenie-nowych-zmiennych-dzięki-mutate)
     -   [5. Grupowanie obserwacji przez
-        `group_by()`](#grupowanie-obserwacji-przez-group_by)
-    -   [6. Podsumowanie z `summarise()`](#podsumowanie-z-summarise)
+        `group_by()`](#5-grupowanie-obserwacji-przez-group_by)
+    -   [6. Podsumowanie z `summarise()`](#6-podsumowanie-z-summarise)
     -   [7. Szerokie i długie zestawy
-        danych](#szerokie-i-długie-zestawy-danych)
--   [B. Prosta statystyka](#b.-prosta-statystyka)
+        danych](#7-szerokie-i-długie-zestawy-danych)
+-   [B. Prosta statystyka](#b-prosta-statystyka)
     -   [1. Czy samce są większe od
-        samic?](#czy-samce-są-większe-od-samic)
+        samic?](#1-czy-samce-są-większe-od-samic)
     -   [2. Czy samic lub samców jest więcej w lesie/w
-        parku?](#czy-samic-lub-samców-jest-więcej-w-lesiew-parku)
+        parku?](#2-czy-samic-lub-samców-jest-więcej-w-lesiew-parku)
     -   [3. Czy długość skoku zależy od daty wyklucia? Regresja
-        prosta](#czy-długość-skoku-zależy-od-daty-wyklucia-regresja-prosta)
+        prosta](#3-czy-długość-skoku-zależy-od-daty-wyklucia-regresja-prosta)
 -   [C. Expressem przez
-    *bootstrapping*](#c.-expressem-przez-bootstrapping)
+    *bootstrapping*](#c-expressem-przez-bootstrapping)
 
 # Zanim zaczniemy
 
