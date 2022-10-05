@@ -56,7 +56,7 @@ Filtrowanie odbywa się za pomocą par `zmienna OPERATOR warunek` - podobnie jak
 
 Przefiltrujmy `dane` tak, by wyświetlić tylko potomstwo matki nr. *R187528*:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane <- read.table(file = "BTdata.csv",
                    sep = ",", header = T,
                    stringsAsFactors = T)
@@ -66,13 +66,13 @@ filter(dane, dam == "R187528")
 
 Czy wszystkie młode wychowywały się w jednym gnieździe (`fosternest`)?
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 unique(filter(dane, dam == "R187528")$fosternest)
 ```
 
 Wybierzmy spośród tych piskląt tylko takie, których skok przekracza 14.50 mm, lub masa przekracza, lub jest równa, 9.5 g:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 filter(dane, dam == "R187528" & (tarsus > 14.50 | weight >= 9.5))
 ```
 
@@ -97,14 +97,14 @@ $\blacksquare$
 
 Posortujmy dane mające dominantę barwną 550 nm (jak wyżej) oraz wyklute przed 15 maja wg długości skoku.
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane2 <- filter(dane, floor(back) == 550 & hatchdate < 45)
 arrange(dane2, tarsus)
 ```
 
 Zmodyfikujmy sortowanie tak, by uporządkowanie według długości skoku odbywało się *w obrębie* każdej matki genetycznej (`dam`).
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 arrange(dane2, dam, tarsus)
 ```
 
@@ -135,21 +135,21 @@ $\blacksquare$
 
 Wybierz z zestawu danych kolumny od 1 do 4 oraz 8 (we wszystkich przykładach wyświetlamy pierwszych 20 wierszy za pomocą `head()`):
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 head(select(dane, 1:4, 8),
      20)
 ```
 
 Wybierz kolumny zawierające pomiary strukturalne (skok oraz dwa pomiary dzioba):
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 head(select(dane, tarsus, starts_with("bill")),
      20)
 ```
 
 Przenieś kolumnę `hatchdate` na sam koniec tabeli:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 head(select(dane, -hatchdate, everything(), hatchdate),
      20)
 ```
@@ -176,7 +176,7 @@ $\blacksquare$
 
 Stwórz zmienną *bill_ratio* będącą stosunkiem długości dzioba do jego głębokości. Użyj do tego skróconego zestawu `dane2`, w którym pozostawisz tylko kolumny morfometryczne oraz ID matki (`dam`) oraz gniazdo (`fosternest`):
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane2 <- select(dane, dam, fosternest, tarsus, weight, starts_with("bill"))
 head(mutate(dane2, bill_ratio = round(bill_length/bill_depth, 3)),
      20)
@@ -198,14 +198,14 @@ Grupowanie pozwala stworzyć w zestawie danych "podzbiory" traktowane jako oddzi
 
 Porównaj taką operację:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 head(mutate(dane2, mean_tars = mean(tarsus)),
      20)
 ```
 
 z taką:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane3 <- group_by(dane2, dam)
 head(mutate(dane3, mean_tars = mean(tarsus)),
      20)
@@ -213,7 +213,7 @@ head(mutate(dane3, mean_tars = mean(tarsus)),
 
 Aby lepiej zobaczyć co właściwie się tutaj stało - posortujmy wynikową tabelę wg ID matki:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane3 <- group_by(dane2, dam)
 dane3 <- mutate(dane3, mean_tars = mean(tarsus))
 arrange(dane3, dam)
@@ -223,7 +223,7 @@ Czy zauważyłeś zmianę tabeli danych na nowy typ obiektu zwany `tibble`?
 
 Wykonanie powyższej serii operacji bardzo ułatwia użycie tzw. operatora **pipe**, pozwalającego łączyć dłuższe ciągi operacji w jeden spójny "potok":
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 group_by(dane2, dam) %>%
   mutate(mean_tars = mean(tarsus)) %>%
   arrange(dam)
@@ -255,7 +255,7 @@ $\blacksquare$
 
 Przefiltruj `dane` tak, by zostały w nich tylko ptaki ze znaną płcią (`sex == "Male"` lub `sex == "Fem"`) i podsumuj je wyliczając dla obserwacji średnią długość skoku, liczbę obserwacji oraz błąd standardowy skoku (liczony jako *SD/sqrt(N)*):
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane %>%
   filter(sex != "UNK") %>%
   summarise(mean_t = mean(tarsus),
@@ -283,13 +283,13 @@ Oryginalny zestaw `dane` jest typu "długiego": każda obserwacja to jeden osobn
 
 By dowiedzieć się o nich nieco więcej - zajrzyj tutaj:
 
-```{r echo = echoing, class.source = 'fold-show', eval = F}
+```{r class.source = 'fold-show', eval = F}
 vignette("pivot")
 ```
 
 Stwórzmy przykładowy zestaw danych zawierający średnie ciężary piskląt i ich wariancje według płci, pogrupowane według `fosternest`:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane_l <- dane %>%
   filter(sex != "UNK") %>%
   group_by(fosternest, sex) %>%
@@ -298,14 +298,14 @@ dane_l <- dane %>%
 
 Taki zestaw danych w formie długiej możemy przerobić na szeroki tworząc osobne kolumny dla samców i samic w danym gnieździe.
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane_l %>%
   pivot_wider(names_from = sex, values_from = mean_w)
 ```
 
 Powyższa komenda nie zadziałała tak, jak chcemy, bo pozostawiliśmy w danych kolumnę z wariancją, zawierającą unikatowe wpisy "dublujące" wiersze z każdym `fosternest`. Musimy albo się tej kolumny pozbyć, albo też uwzględnić ją w `pivot_wider`:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane_l %>%
   select(-var_w) %>%
   pivot_wider(names_from = sex, values_from = mean_w)
@@ -316,7 +316,7 @@ dane_l %>%
 
 Zapiszmy dane w nowym obiekcie `dane_w`.
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane_w <- dane_l %>%
   select(-var_w) %>%
   pivot_wider(names_from = sex, values_from = mean_w)
@@ -349,7 +349,7 @@ Funkcja|Test|Zastosowanie
 
 Sprawdźmy za pomocą testu korelacji czy waga piskląt związana jest istotnie z ich długością skoku. Jaka jest: wartość *p* testu, obliczona korelacja i jej 95% przedział ufności? Czy odrzucasz hipotezę zerową? Jaka ona jest?
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 test1 <- cor.test(dane$tarsus, dane$weight)
 test1
 test1$p.value
@@ -357,7 +357,7 @@ test1$p.value
 
 Prosty wykres rozrzutu dobrze obrazuje otrzymany wynik:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 plot(dane$tarsus, dane$weight,
      xlab = "Weight", ylab = "Tarsus")
 ```
@@ -408,7 +408,7 @@ $\blacksquare$
 
 Aby odpowiedzieć na to pytanie - potrzebujemy podsumowania zliczającego samce i samice w dwóch rodzajach siedliska. Najłatwiej uzyskać takie podsumowanie stosując funkcję `table()`:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 dane2 <- filter(dane, sex != "UNK") %>% gdata::drop.levels()
 sex_hab <- table(dane2$sex, dane2$habitat)
 sex_hab
@@ -429,7 +429,7 @@ $\blacksquare$
 
 Sprawdźmy to najpierw wizualnie:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 plot(tarsus ~ hatchdate, data = dane)
 ```
 
@@ -451,7 +451,7 @@ summary(model)
 
 Przyjrzyj się wykresom, które powstają dzięki wywołaniu funkcji
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 plot(model)
 ```
 
@@ -463,19 +463,19 @@ $\blacksquare$
 
 Do tej pory do naszych analiz wykorzystywaliśmy metody parametryczne - możemy jednak spróbować wykorzystać inną, prostszą metodę, która pozwoli nam uwolnić się od ograniczeń rozkładowych naszych danych. Spójrzmy na przykład na rozkład zmiennej `hatchdate` - nie jest on najpiękniejszy i na pierwszy rzut oka nie przypomina on zgrabnego rozkładu normalnego:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 hist(dane$hatchdate, 15)
 ```
 
 Spróbujmy skonstruować test oparty na bootstrappingu, którym sprawdzimy czy ptaki z lasu (`forest`) różnią się pod kątem daty klucia od ptaków z parków (`park`). Szybki rzut oka na wykres pudełkowy nie wskazuje na zbyt wielkie różnice.
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 plot(hatchdate ~ habitat, data = dane)
 ```
 
 1. Do skonstruowania bootstrappingu wykorzystamy pętlę `for`, która pozwala powtarzać jakąś operację wiele razy. Jeśli chcielibyśmy np. wydrukować na ekranie (`print()`) jakiś tekst pięć razy - moglibyśmy osiągnąć to w następujący sposób:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 for(i in 1:5) {
   print("Tekst najbardziej oryginalny!")
 }
@@ -485,7 +485,7 @@ Zauważ, że pętla for wykorzystuje jakąś zmienną (tutaj `i`), zmieniając j
 
 2. Potrzebna nam będzie również metoda losowego wybierania pewnych wierszy z naszych oryginalnych danych - ze zwracaniem. Idealnie do tego nadaje się funkcja `sample()`. Zobaczmy, jak losuje ona zadaną liczbę wartości (10) z podanej listy (liczby 1 do 20), ze zwracaniem (`replace = T`):
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 sample(1:20, size = 10, replace = T)
 ```
 
@@ -493,7 +493,7 @@ sample(1:20, size = 10, replace = T)
 
 3. Wreszcie - musimy mieć naszą statystykę testową. Niech będzie nią różnica między średnią datą klucia w sikor leśnych i parkowych $d_0$ - jeśli wynosi ona zero, ptaki mają identyczne daty klucia:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 d0 <- mean(filter(dane, habitat == "forest")$hatchdate) -
   mean(filter(dane, habitat == "park")$hatchdate)
 d0
@@ -508,7 +508,7 @@ Oto co powinna robić nasza procedura bootstrappingu:
 * Krok 3: Powtórz całą procedurę N = 1000 razy (jest to arbitralna wielkość, im więcej - tym lepiej). Za każdym razem zapisz wynik do zbiorczego obiekty `out`.
 * Krok 4: Skonstruuj rozkład statystyki `d` i zobacz gdzie wypada w niej jej oryginalna (oparta na wejściowych danych) wartość `d0`.
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 N <- 1000 # liczba zakładanych powtórzeń
 k <- nrow(dane) # wielkość oryginalnego zbioru danych
 
@@ -544,7 +544,7 @@ for(i in 1:N) {
 
 Wyświetlmy rozkład symulowanej statystyki `d` oraz położenie `d0` na rozkładzie:
 
-```{r echo = echoing, class.source = 'fold-show'}
+```{r class.source = 'fold-show'}
 hist(out, 50)
 abline(v = d0, lwd = 2)
 abline(v = 0, col = "red", lwd = 2, lty = 2)
