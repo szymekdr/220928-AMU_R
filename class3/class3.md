@@ -44,6 +44,20 @@ dane <- filter(dane, sex != "UNK")
 
 ## 1. Regresja wielokrotna
 
+We wszystkich modelach liniowych tworzonych w `R` stosujemy konwencję
+formuły do zapisania zależności między zmiennymi w modelu. Oto kilka
+podstawowych elementów formuły, wraz z ich interpretacją:
+
+| Formuła             | Znaczenie                                                                                                                                       |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `y ~ x`             | Regresja prosta (`x` ciągłe) lub jednokierunkowa ANOVA (`x` kategoryczne); jeśli `x` ma 2 poziomy taka notacja da wynik identyczny z `t.test()` |
+| `y ~ x + z`         | Regresja wielokrotna (`x` i `z` ciągłe); dwukierunkowa ANOVA (`x` i `z` kategoryczne); ANCOVA (jedna zmienna ciągła, druga kategoryczna)        |
+| `y ~ x * z`         | Model liniowy z interakcją `x`×`y`                                                                                                              |
+| `y ~ x + z + x:z`   | Alternatywny zapis poprzedniego modelu                                                                                                          |
+| `y ~ (x + z + a)^2` | Model z 3 czynnikami, i ich wszystkimi interakcjami 2 stopnia (zapis równoważny `x + z + a + x:a + x:z + z:a`)                                  |
+| `y ~ x * z * a`     | Model z 3 czynnikami i ich wszystkimi interakcjami (łącznie z `x:z:a`)                                                                          |
+| `y ~ x|z`           | Model ze zmienną `x` zagnieżdżoną w `z`                                                                                                         |
+
 **Zadanie** Opierając się na prostej regresji skonstruuj model, w którym
 na `tarsus` potencjalnie wpływają: `hatchdate`, `sex`, `habitat`,
 interakcja `habitat` x `hatchdate`, interakcja `sex` x `hatchdate`.
@@ -275,7 +289,7 @@ wyglądają wyniki takiego modelu?
     ## Multiple R-squared:  0.2891, Adjusted R-squared:  0.2071 
     ## F-statistic: 3.525 on 3 and 26 DF,  p-value: 0.02881
 
-**Zadanie** Poarównaj uzyskany output z wynikiem użycia w podobny sposób
+**Zadanie** Porównaj uzyskany output z wynikiem użycia w podobny sposób
 funkcji `aov()`.
 
 **Oczekiwany wynik**

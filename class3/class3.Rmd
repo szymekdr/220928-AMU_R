@@ -48,6 +48,18 @@ dane <- filter(dane, sex != "UNK")
 
 ## 1. Regresja wielokrotna
 
+We wszystkich modelach liniowych tworzonych w `R` stosujemy konwencję formuły do zapisania zależności między zmiennymi w modelu. Oto kilka podstawowych elementów formuły, wraz z ich interpretacją:
+
+Formuła|Znaczenie
+-------|---------
+`y ~ x`|Regresja prosta (`x` ciągłe) lub jednokierunkowa ANOVA (`x` kategoryczne); jeśli `x` ma 2 poziomy taka notacja da wynik identyczny z `t.test()`
+`y ~ x + z`|Regresja wielokrotna (`x` i `z` ciągłe); dwukierunkowa ANOVA (`x` i `z` kategoryczne); ANCOVA (jedna zmienna ciągła, druga kategoryczna)
+`y ~ x * z`|Model liniowy z interakcją `x`$\times$`y`
+`y ~ x + z + x:z`|Alternatywny zapis poprzedniego modelu
+`y ~ (x + z + a)^2`|Model z 3 czynnikami, i ich wszystkimi interakcjami 2 stopnia (zapis równoważny `x + z + a + x:a + x:z + z:a`)
+`y ~ x * z * a`|Model z 3 czynnikami i ich wszystkimi interakcjami (łącznie z `x:z:a`)
+`y ~ x|z`|Model ze zmienną `x` zagnieżdżoną w `z`
+
 **Zadanie** Opierając się na prostej regresji skonstruuj model, w którym na `tarsus` potencjalnie wpływają: `hatchdate`, `sex`, `habitat`, interakcja `habitat` x `hatchdate`, interakcja `sex` x `hatchdate`. Zapisz go w nowym obiekcie - czy którykolwiek czynnik modelu jest istotny statystycznie?
 
 **Oczekiwany wynik**
@@ -116,7 +128,7 @@ model3 <- lm(weight ~ group + mod, data = plantgr)
 summary(model3)
 ```
 
-**Zadanie** Poarównaj uzyskany output z wynikiem użycia w podobny sposób funkcji `aov()`.
+**Zadanie** Porównaj uzyskany output z wynikiem użycia w podobny sposób funkcji `aov()`.
 
 **Oczekiwany wynik**
 ```{r echo = echoing}
