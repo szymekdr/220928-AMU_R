@@ -1,22 +1,22 @@
 -   [Zanim zaczniemy](#zanim-zaczniemy)
-    -   [0. Przydatne zasoby pomocowe w pracy z `R` - część
+    -   [0. Przydatne zasoby pomocowe w pracy z R - część
         pierwsza](#0-przydatne-zasoby-pomocowe-w-pracy-z-r---część-pierwsza)
     -   [0. Katalog roboczy](#0-katalog-roboczy)
 -   [A. Podstawy składni `R`](#a-podstawy-składni-r)
-    -   [1. `R` działa w oparciu o
-        funkcje](#1-r-działa-w-oparciu-o-funkcje)
+    -   [1. R działa w oparciu o funkcje](#1-r-działa-w-oparciu-o-funkcje)
     -   [2. Skąd wiedzieć jakie argumenty ma
         funkcja?](#2-skąd-wiedzieć-jakie-argumenty-ma-funkcja)
     -   [3. Istotne cechy składni języka
         `R`](#3-istotne-cechy-składni-języka-r)
-    -   [4. R to kalkulator na sterydach](#4-r-to-kalkulator-na-sterydach)
+    -   [4. `R` to kalkulator na
+        sterydach](#4-r-to-kalkulator-na-sterydach)
 -   [B. Zapisywanie pracy](#b-zapisywanie-pracy)
 -   [C. Zmienne i struktury danych](#c-zmienne-i-struktury-danych)
     -   [1. Tworzenie zmiennych](#1-tworzenie-zmiennych)
     -   [2. Wektory i ich tworzenie](#2-wektory-i-ich-tworzenie)
     -   [3. Indeksowanie wektorów](#3-indeksowanie-wektorów)
     -   [4. Ładowanie danych do `R`. Typy
-        danych](#4-ładowanie-danych-do-r.-typy-danych)
+        danych](#4-ładowanie-danych-do-r-typy-danych)
     -   [5. Dane jako macierz -
         indeksowanie](#5-dane-jako-macierz---indeksowanie)
     -   [6. Filtrowanie danych](#6-filtrowanie-danych)
@@ -24,13 +24,14 @@
 
 # Zanim zaczniemy
 
-## 0. Przydatne zasoby pomocowe w pracy z `R` - część pierwsza
+## 0. Przydatne zasoby pomocowe w pracy z R - część pierwsza
 
 -   [RStudio
     cheat-sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rstudio-ide.pdf)
 -   [RMarkdown
     cheat-sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf)
--   [RMarkdown book](https://bookdown.org/yihui/rmarkdown/)
+-   [Książka o
+    RMarkdown](https://bookdown.org/yihui/rmarkdown-cookbook/)
 -   [Ściąga z podstawowych funkcji
     R](http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf)
 -   [Szybki GitHub dla
@@ -77,13 +78,13 @@ sprawdzić wybór folderu za pomocą funkcji `getwd()`:
 getwd()
 ```
 
-    [1] "/Users/szymek/Dropbox/#SCIENCE/R/_dydaktyka/220928-AMU_R"
+    ## [1] "/Users/szymek/Dropbox/#SCIENCE/R/_dydaktyka/220928-AMU_R/class1"
 
 ------------------------------------------------------------------------
 
 # A. Podstawy składni `R`
 
-## 1. `R` działa w oparciu o funkcje
+## 1. R działa w oparciu o funkcje
 
 “Funkcja” to rodzaj makra, które wykonuje określone instrukcje. Mogą one
 być bardzo proste, ale mogą też mieć wiele złożonych właściwości. W `R`
@@ -124,9 +125,17 @@ oraz go pomijając. Spierwiastkuj w tych dwóch wywołaniach liczbę 2 oraz
 
 **Spodziewany wynik**
 
-    [1] 1.414214
+``` r
+sqrt(x = 2)
+```
 
-    [1] 2.44949
+    ## [1] 1.414214
+
+``` r
+sqrt(6)
+```
+
+    ## [1] 2.44949
 
 **Zadanie** Funkcja `round()` przyjmuje argumenty `x` (wartość do
 zaokrąglenia) oraz `digits` (liczba miejsc dziesiętnych, do których
@@ -140,19 +149,35 @@ jest osobna. Co się stanie, gdy pominiesz drugi argument (`digits`)?
 
 *Podając nazwy argumentów*
 
-    [1] 4.247
+``` r
+round(x = 4.246813579, digits = 3)
+```
+
+    ## [1] 4.247
 
 *Bez nazw, w kolejności `x digits`*
 
-    [1] 4.247
+``` r
+round(4.246813579, 3)
+```
+
+    ## [1] 4.247
 
 *Bez nazw, w kolejności `digits x`*
 
-    [1] 3
+``` r
+round(3, 4.246813579)
+```
+
+    ## [1] 3
 
 *Bez podania drugiego argumentu*
 
-    [1] 4
+``` r
+round(4.246813579)
+```
+
+    ## [1] 4
 
 ◼
 
@@ -194,15 +219,15 @@ wynik od poprzedniego rezultatu?
     `''`: `pewna_funkcja(argument2 = '"opcja1"')`.
 
 -   Wprowadzenie znaków “zakazanych” w ciągu tekstowym (np. `'`) wymaga
-    zastosowania tzw. *escape* (np. `"\'"`). *Escape* wykorzystuje się
+    zastosowania tzw. *escape* (np. `"\"`). *Escape* wykorzystuje się
     również by wprowadzić np. znak nowej linii `"\n"`:
 
 ``` r
 cat("Pierwsza linia\nDruga linia")
 ```
 
-    Pierwsza linia
-    Druga linia
+    ## Pierwsza linia
+    ## Druga linia
 
 Zastosowana powyżej funkcja `cat()` służy do wyświetlania ciągów znaków
 w konsoli.
@@ -221,16 +246,24 @@ w konsoli.
     >
 
 -   Kolejność działań w `R` jest zgodna z zasadami matematyki (działania
-    w nawiasie, potem `^`, potem `*` i `/`, potem `+` i `-`), ale dla
+    w nawiasie, potem `^`, potem \*`i`/`, potem`+`i`-\`) ale dla
     zachowania czytelności zawsze lepiej używać (nawet nadmiarowych)
     nawiasów).
 -   `R` rozróżnia małe litery tak więc `ZmiennA` ≠ `zmienna`.
 -   Linie kodu rozpoczynające się od `#` stają się komentarzami i nie są
     uruchamiane:
 
-<!-- -->
+``` r
+# tutaj zaokrąglam liczbę do 4 miejsc po przecinku
+round(pi, 4)
+```
 
-    [1] 3.1416
+    ## [1] 3.1416
+
+``` r
+# przy okazji poznajemy jedną ze zmiennych wewnętrznych w R
+# przechowującą wartość liczby 'pi'
+```
 
 -   Na dawne obiektom `R` nazwy nie mogą zaczynać się od cyfr, nie mogą
     zawierać znaków specjalnych (`;:'",<>?/!+-*&|[]{}()^%$#@`), unikajmy
@@ -239,33 +272,46 @@ w konsoli.
     rozdzielania słów w nazwach za pomocą “\_” (`zmienna_pierwsza`) lub
     wielkich liter (`zmiennaPierwsza`).
 
-## 4. R to kalkulator na sterydach
+## 4. `R` to kalkulator na sterydach
 
 `R` to język programowania wykonywany w linii poleceń, w *czasie
 rzeczywistym*. Oznacza to, że to co wpiszemy w konsoli terminala `R`
 zostanie wykonane od razu, i od razu zobaczymy wyniki naszych obliczeń.
 
 Z `R` można również pracować inaczej - za pomocą skryptów. Są to pliki
-tekstowe (najcześciej z rozszerzeniem `.R`), które R może uruchomić i
+tekstowe (najcześciej z rozszerzeniem `.R`), które `R` może uruchomić i
 wykonać w całości.
 
 **Zadanie** Za pomocą funkcji `source()` spróbuj uruchomić przykładowy
 skrypt `class1_script.R`. **Spodziewany wynik**
 
-    [1] "Hello World!"
+``` r
+source('class1_script.R')
+```
 
-Pracując w konsoli poeksploruj funkcje obliczeniowe R.
+    ## [1] "Hello World!"
+
+Pracując w konsoli poeksploruj funkcje obliczeniowe `R`.
 
 **Zadanie** Zsumuj liczby całkowite od -4 do 7.
 
 **Spodziewany wynik**
 
-    [1] 18
+``` r
+-4+-3+-2+-1+1+2+3+4+5+6+7
+```
+
+    ## [1] 18
 
 **Zadanie** Sprawdź do czego służą operatory arytmetyczne `%%` oraz
 `%/%`. Jaki wynik daje operacja `82%%9` oraz `82%/%9`? Korzystając z
 jednej z tych funkcji - jak sprawdzisz czy liczba 87654 podzielna jest
 przez 7?
+
+``` r
+87654 %% 7 # podzielna przez 7 bo wynik == 0
+87654 %/% 7 # 7 mieści się w liczbie 12522 razy, ? czy jest podzielna
+```
 
 Wiele operacji ma swoje własne funkcje - np.:
 
@@ -282,15 +328,28 @@ Wiele operacji ma swoje własne funkcje - np.:
 **Zadanie** Czy logarytm dziesiętny z liczby 100 oraz logarytm naturalny
 z liczby *e*<sup>1</sup> dają spodziewany wynik?
 
+``` r
+log10(100) # powinno być 2
+log(exp(1)) # powinno być 1
+```
+
 W trakcie pracy w `R` możemy napotkać na wartości na pierwszy rzut oka
 dziwne. **Zadanie** Zobacz co się stanie, gdy spróbujesz podzielić
 liczbę dodatnią i ujemną przez zero.
 
 **Spodziewany wynik**
 
-    [1] Inf
+``` r
+10/0
+```
 
-    [1] -Inf
+    ## [1] Inf
+
+``` r
+-3/0
+```
+
+    ## [1] -Inf
 
 `Inf` oznacza “nieskończoność”. Choć formalnie nie możemy podzielić
 liczby przez zero, `R` próbuje wybrnąć z sytuacji i traktuje wyrażenie
@@ -298,6 +357,16 @@ tak, jak w analizie matematycznej (skoro nie potrafi obliczyć wartości,
 próbuje znaleźć wartość graniczną wyrażenia i tutaj jest to
 ±nieskończoność). Jakie jeszcze operacje matematyczne mogą wywołać
 nieoczekiwane rezultaty?
+
+``` r
+log(-10)
+factorial(-9)
+sqrt(-9)
+
+# ale:
+
+sqrt(-9+0i)
+```
 
 `R` zawiera trzy typy “nieliczbowych” wartości, które bedą pojawiać się
 w naszej pracy:
@@ -343,9 +412,9 @@ w naszej pracy:
 
 -   **Przestrzeń robocza** - to to, co wyświetla się w panelu
     **Environment**. Zawiera ona wszystkie obiekty i funkcje stworzone w
-    naszej aktualnej sesji R. Możemy zapisać ją do pliku dzięki funkcji
-    `save.image(file = "nazwa_pliku.Rdata")`, oraz odtworzyć ją za
-    pomocą `load(file = "nazwa_pliku.Rdata")`. Pominięcie nazwy pliku
+    naszej aktualnej sesji `R`. Możemy zapisać ją do pliku dzięki
+    funkcji `save.image(file = "nazwa_pliku.Rdata")`, oraz odtworzyć ją
+    za pomocą `load(file = "nazwa_pliku.Rdata")`. Pominięcie nazwy pliku
     spowoduje, że zapisana zostanie “ukryta” wersja przestrzeni, nazwana
     `.Rdata` - do takiego pliku RStudio próbuje również zapisać
     przestrzeń roboczą gdy zamykamy program.
@@ -362,9 +431,20 @@ w naszej pracy:
 Stwórzmy w naszej (ciągle pustej przestrzeni roboczej) 2 obiekty (więcej
 o tworzeniu obiektów dowiemy się za chwilę):
 
+``` r
+zmienna1 <- 1000
+zmienna_2 <- "my_text"
+```
+
 **Zadanie** Zapisz aktualną przestrzeń roboczą do pliku `wdir.Rdata`.
 Wyczyść przestrzeń za pomocą `rm(list = ls())`. Załaduj zachowaną
 przestrzeń z powrotem.
+
+``` r
+save.image(file = "wdir.Rdata")
+rm(list = ls())
+load(file = "wdir.Rdata")
+```
 
 **Zadanie** Co robi sama funkcja `ls()`?
 
@@ -388,16 +468,32 @@ wartość 66. Wywołaj je po ich nazwie.
 
 **Spodziewany wynik**
 
-    [1] 10
+``` r
+x <- 10
+y <- 66
+x
+```
 
-    [1] 66
+    ## [1] 10
+
+``` r
+y
+```
+
+    ## [1] 66
 
 **Zadanie** Przypisz do zmiennej `z` wartość sumy `x` i `y`,
 powiększonej o 45%. Wywołaj `z`.
 
 **Spodziewany wynik**
 
-    [1] 110.2
+``` r
+z <- (x + y)*1.45
+# lub np. z <- (x + y) + 0.45*(x + y)
+z
+```
+
+    ## [1] 110.2
 
   
   
@@ -435,7 +531,12 @@ parzyste od 2 do 10.
 
 **Spodziewany wynik**
 
-    [1]  2  4  6  8 10
+``` r
+vec <- c(2, 4, 6, 8, 10)
+vec
+```
+
+    ## [1]  2  4  6  8 10
 
 **Zadanie** Jakiego rodzaju wynik dostaniemy, jeśli zastosujemy w
 stosunku do tego wektora funkcje: `length()`, `sqrt()`, `sum()`,
@@ -443,17 +544,41 @@ stosunku do tego wektora funkcje: `length()`, `sqrt()`, `sum()`,
 
 **Spodziewany wynik**
 
-    [1] 5
+``` r
+length(vec)
+```
 
-    [1] 1.414214 2.000000 2.449490 2.828427 3.162278
+    ## [1] 5
 
-    [1] 30
+``` r
+sqrt(vec)
+```
 
-    [1] 6
+    ## [1] 1.414214 2.000000 2.449490 2.828427 3.162278
 
-    [1] 3.162278
+``` r
+sum(vec)
+```
 
-    [1] 102 104 106 108 110
+    ## [1] 30
+
+``` r
+mean(vec)
+```
+
+    ## [1] 6
+
+``` r
+sd(vec)
+```
+
+    ## [1] 3.162278
+
+``` r
+vec + 100
+```
+
+    ## [1] 102 104 106 108 110
 
 Aby ułatwić sobie życie możemy tworzyć wektory zawierające wiele
 wartości w prosty sposób. Sekwencję liczb “od-do” możemy wygenerować za
@@ -467,25 +592,42 @@ dodawane co 4 (`seq`) oraz `vec3` zawierający 156 powtórzeń liczby 6
 
 **Spodziewany wynik**
 
-     [1] 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60
-    [32] 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
+``` r
+vec1 <- 30:75
+vec2 <- seq(-5, 80, by = 4)
+vec3 <- rep(6, 156)
 
-     [1] -5 -1  3  7 11 15 19 23 27 31 35 39 43 47 51 55 59 63 67 71 75 79
+vec1
+```
 
-      [1] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
-     [47] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
-     [93] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
-    [139] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+    ##  [1] 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
+    ## [39] 68 69 70 71 72 73 74 75
 
-    Warning in vec1 + vec3: długość dłuszego obiektu nie jest wielokrotnością długości krótszego
-    obiektu
+``` r
+vec2
+```
 
-      [1] 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66
-     [32] 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51
-     [63] 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 36
-     [94] 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
-    [125] 68 69 70 71 72 73 74 75 76 77 78 79 80 81 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52
-    [156] 53
+    ##  [1] -5 -1  3  7 11 15 19 23 27 31 35 39 43 47 51 55 59 63 67 71 75 79
+
+``` r
+vec3
+```
+
+    ##   [1] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+    ##  [57] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+    ## [113] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+
+``` r
+vec1 + vec3
+```
+
+    ## Warning in vec1 + vec3: długość dłuszego obiektu nie jest wielokrotnością długości krótszego obiektu
+
+    ##   [1] 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72
+    ##  [38] 73 74 75 76 77 78 79 80 81 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+    ##  [75] 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54
+    ## [112] 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 36 37 38 39 40 41 42 43 44 45
+    ## [149] 46 47 48 49 50 51 52 53
 
 Przydatne funkcje mające zastosowanie do wektorów:
 
@@ -513,11 +655,23 @@ trzeciego do jedenastego; siódmy, drugi i trzydziesty.
 
 **Spodziewany wynik**
 
-    [1] 41
+``` r
+vec1[12]
+```
 
-    [1] 32 33 34 35 36 37 38 39 40
+    ## [1] 41
 
-    [1] 36 31 59
+``` r
+vec1[3:11]
+```
+
+    ## [1] 32 33 34 35 36 37 38 39 40
+
+``` r
+vec1[c(7, 2, 30)]
+```
+
+    ## [1] 36 31 59
 
 **Zadanie** Czy wektor może zawierać wartości różnego typu? Stwórz 2
 wektory, jeden zawierający liczbę 2, wartość logiczną TRUE oraz liczbę
@@ -526,9 +680,19 @@ dokładnością do 3 miejsc po przecinku. Co oznacza wynik tych działań?
 
 **Spodziewany wynik**
 
-    [1] 2 1 7
+``` r
+v1 <- c(2, T, 7)
+v1
+```
 
-    [1] "11"    "dwa"   "3.142"
+    ## [1] 2 1 7
+
+``` r
+v2 <- c(11, "dwa", round(pi, digits = 3))
+v2
+```
+
+    ## [1] "11"    "dwa"   "3.142"
 
 ◼
 
@@ -548,13 +712,20 @@ funkcji `head()` kilka pierwszych wierszy obiektu `dane`.
 
 **Spodziewany rezultat**
 
-      tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth
-    1  13.55 551.3757 R187557      F2102        47  Fem    8.9    park      10.885      0.597
-    2  15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682
-    3  14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673
-    4  14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639
-    5  14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631
-    6  13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626
+``` r
+dane <- read.table(file = "BTdata.csv",
+                   sep = ",", header = T,
+                   stringsAsFactors = T)
+head(dane)
+```
+
+    ##   tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth
+    ## 1  13.55 551.3757 R187557      F2102        47  Fem    8.9    park      10.885      0.597
+    ## 2  15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682
+    ## 3  14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673
+    ## 4  14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639
+    ## 5  14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631
+    ## 6  13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626
 
 **Zadanie** Strukturę złożonych obiektów w `R` możemy poznać dzięki
 funkcji `str()`. Podejrzyj strukturę obiektu `dane`. Co stanie się, gdy
@@ -562,17 +733,21 @@ wyświetlisz go za pomocą `View(dane)`?
 
 **Spodziewany rezultat**
 
-    'data.frame':   828 obs. of  10 variables:
-     $ tarsus     : num  13.6 15.1 15 14.7 14.5 ...
-     $ back       : num  551 549 550 550 550 ...
-     $ dam        : Factor w/ 106 levels "Fem2","Fem20",..: 56 57 61 38 43 94 3 23 37 40 ...
-     $ fosternest : Factor w/ 104 levels "A1002","A102",..: 74 72 16 4 12 38 35 34 42 28 ...
-     $ hatchdate  : int  47 47 47 45 45 49 47 46 44 46 ...
-     $ sex        : Factor w/ 3 levels "Fem","Male","UNK": 1 2 2 2 1 1 2 1 1 1 ...
-     $ weight     : num  8.9 10.5 9.9 9.7 9.7 9.3 9.3 10.2 9.5 9.6 ...
-     $ habitat    : Factor w/ 2 levels "forest","park": 2 1 1 1 1 1 2 1 2 1 ...
-     $ bill_length: num  10.9 12.1 12 11.7 11.6 ...
-     $ bill_depth : num  0.597 0.682 0.673 0.639 0.631 0.626 0.591 0.675 0.629 0.609 ...
+``` r
+str(dane)
+```
+
+    ## 'data.frame':    828 obs. of  10 variables:
+    ##  $ tarsus     : num  13.6 15.1 15 14.7 14.5 ...
+    ##  $ back       : num  551 549 550 550 550 ...
+    ##  $ dam        : Factor w/ 106 levels "Fem2","Fem20",..: 56 57 61 38 43 94 3 23 37 40 ...
+    ##  $ fosternest : Factor w/ 104 levels "A1002","A102",..: 74 72 16 4 12 38 35 34 42 28 ...
+    ##  $ hatchdate  : int  47 47 47 45 45 49 47 46 44 46 ...
+    ##  $ sex        : Factor w/ 3 levels "Fem","Male","UNK": 1 2 2 2 1 1 2 1 1 1 ...
+    ##  $ weight     : num  8.9 10.5 9.9 9.7 9.7 9.3 9.3 10.2 9.5 9.6 ...
+    ##  $ habitat    : Factor w/ 2 levels "forest","park": 2 1 1 1 1 1 2 1 2 1 ...
+    ##  $ bill_length: num  10.9 12.1 12 11.7 11.6 ...
+    ##  $ bill_depth : num  0.597 0.682 0.673 0.639 0.631 0.626 0.591 0.675 0.629 0.609 ...
 
 **Zadanie** Wyświetl podsumowanie obiektu `dane` za pomocą funkcji
 `summary()`. Dlaczego zmienne `sex`, `habitat` i kilka innych mają inny
@@ -580,22 +755,26 @@ typ podsumowania niż np. `tarsus`?
 
 **Spodziewany wynik**
 
-         tarsus           back            dam        fosternest    hatchdate      sex     
-     Min.   :12.57   Min.   :546.7   R187926: 15   G402   : 15   Min.   :44.0   Fem :392  
-     1st Qu.:14.16   1st Qu.:549.2   R187517: 13   A2602  : 12   1st Qu.:47.0   Male:391  
-     Median :14.54   Median :549.9   R187518: 12   A602   : 12   Median :48.0   UNK : 45  
-     Mean   :14.50   Mean   :550.0   R187559: 12   F2102  : 12   Mean   :48.4             
-     3rd Qu.:14.77   3rd Qu.:550.8   Fem20  : 11   A1602  : 11   3rd Qu.:50.0             
-     Max.   :16.81   Max.   :554.2   R187030: 11   B202   : 11   Max.   :55.0             
-                                     (Other):754   (Other):755                            
-         weight         habitat     bill_length      bill_depth    
-     Min.   : 8.600   forest:418   Min.   :10.07   Min.   :0.5130  
-     1st Qu.: 9.500   park  :410   1st Qu.:11.32   1st Qu.:0.6130  
-     Median : 9.800                Median :11.64   Median :0.6380  
-     Mean   : 9.789                Mean   :11.60   Mean   :0.6375  
-     3rd Qu.:10.000                3rd Qu.:11.84   3rd Qu.:0.6650  
-     Max.   :11.400                Max.   :13.40   Max.   :0.7970  
-                                                                   
+``` r
+summary(dane)
+```
+
+    ##      tarsus           back            dam        fosternest    hatchdate      sex          weight         habitat   
+    ##  Min.   :12.57   Min.   :546.7   R187926: 15   G402   : 15   Min.   :44.0   Fem :373   Min.   : 8.600   forest:418  
+    ##  1st Qu.:14.16   1st Qu.:549.2   R187517: 13   A2602  : 12   1st Qu.:47.0   Male:408   1st Qu.: 9.500   park  :410  
+    ##  Median :14.54   Median :549.9   R187518: 12   A602   : 12   Median :48.0   UNK : 47   Median : 9.800               
+    ##  Mean   :14.50   Mean   :550.0   R187559: 12   F2102  : 12   Mean   :48.4              Mean   : 9.789               
+    ##  3rd Qu.:14.77   3rd Qu.:550.8   Fem20  : 11   A1602  : 11   3rd Qu.:50.0              3rd Qu.:10.000               
+    ##  Max.   :16.81   Max.   :554.2   R187030: 11   B202   : 11   Max.   :55.0              Max.   :11.400               
+    ##                                  (Other):754   (Other):755                                                          
+    ##   bill_length      bill_depth    
+    ##  Min.   :10.07   Min.   :0.5130  
+    ##  1st Qu.:11.32   1st Qu.:0.6130  
+    ##  Median :11.64   Median :0.6380  
+    ##  Mean   :11.60   Mean   :0.6375  
+    ##  3rd Qu.:11.84   3rd Qu.:0.6650  
+    ##  Max.   :13.40   Max.   :0.7970  
+    ## 
 
 Nasz zestaw danych zawiera nowy rodzaj zmiennej: kategoryczną
 (`factor`). Znamy już więc wszystkie potrzebne nam typy danych w `R`:
@@ -621,11 +800,21 @@ Nasz zestaw danych zawiera nowy rodzaj zmiennej: kategoryczną
 > zmiannej tekstowej w liczbową nie ma większego sensu, chyba że tekst
 > zawiera liczbę):
 
-    Warning: pojawiły się wartości NA na skutek przekształcenia
+``` r
+as.numeric("text")
+```
 
-    [1] NA
+    ## Warning: pojawiły się wartości NA na skutek przekształcenia
 
-    [1] 2
+    ## [1] NA
+
+``` r
+#ale
+
+as.numeric("2")
+```
+
+    ## [1] 2
 
 **Zadanie** Za pomocą funkcji `ncol()` oraz `nrow()` ustal wymiary
 tabeli `dane`. Czy wynik działania `ncol()` zgadza się z rezultatem
@@ -633,12 +822,24 @@ funkcji `names(dane)` - zwracającej nazwy kolumn w tabeli danych?
 
 **Spodziewany wynik**
 
-    [1] 10
+``` r
+ncol(dane)
+```
 
-    [1] 828
+    ## [1] 10
 
-     [1] "tarsus"      "back"        "dam"         "fosternest"  "hatchdate"   "sex"        
-     [7] "weight"      "habitat"     "bill_length" "bill_depth" 
+``` r
+nrow(dane)
+```
+
+    ## [1] 828
+
+``` r
+names(dane)
+```
+
+    ##  [1] "tarsus"      "back"        "dam"         "fosternest"  "hatchdate"   "sex"         "weight"      "habitat"    
+    ##  [9] "bill_length" "bill_depth"
 
 ◼
 
@@ -664,24 +865,36 @@ kilku pierwszych obserwacji).
 
 **Spodziewany wynik**
 
-       tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth
-    1   13.55 551.3757 R187557      F2102        47  Fem    8.9    park      10.885      0.597
-    2   15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682
-    3   14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673
-    4   14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639
-    5   14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631
-    6   13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626
-    7   13.93 549.4878    Fem3      C1902        47 Male    9.3    park      11.154      0.591
-    8   15.45 548.3911 R187030      C1302        46  Fem   10.2  forest      12.348      0.675
-    9   14.31 550.0810 R187517       C602        44  Fem    9.5    park      11.434      0.629
-    10  14.46 549.8523 R187523      B2202        46  Fem    9.6  forest      11.564      0.609
+``` r
+dane[1:10,]
+```
 
-        tarsus     back     dam fosternest hatchdate
-    2    15.07 549.0884 R187559      F1902        47
-    20   13.40 549.0100 R187588      F2402        47
-    200  14.16 548.3299 R186907       C102        53
+    ##    tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth
+    ## 1   13.55 551.3757 R187557      F2102        47  Fem    8.9    park      10.885      0.597
+    ## 2   15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682
+    ## 3   14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673
+    ## 4   14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639
+    ## 5   14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631
+    ## 6   13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626
+    ## 7   13.93 549.4878    Fem3      C1902        47 Male    9.3    park      11.154      0.591
+    ## 8   15.45 548.3911 R187030      C1302        46  Fem   10.2  forest      12.348      0.675
+    ## 9   14.31 550.0810 R187517       C602        44  Fem    9.5    park      11.434      0.629
+    ## 10  14.46 549.8523 R187523      B2202        46  Fem    9.6  forest      11.564      0.609
 
-    [1] 551.3757 549.0884 550.1739 550.3067 549.6392 551.8693
+``` r
+dane[c(2, 20, 200), 1:5]
+```
+
+    ##     tarsus     back     dam fosternest hatchdate
+    ## 2    15.07 549.0884 R187559      F1902        47
+    ## 20   13.40 549.0100 R187588      F2402        47
+    ## 200  14.16 548.3299 R186907       C102        53
+
+``` r
+head(dane[, 2])
+```
+
+    ## [1] 551.3757 549.0884 550.1739 550.3067 549.6392 551.8693
 
 Kolumn w macierzy możemy również indeksować po ich nazwie, korzystając
 zarówno z konwencji `[]`, jak i ze specjalnego operatora `$` (np.
@@ -693,12 +906,20 @@ zmiennej `tarsus`.
 
 **Spodziewany wynik**
 
-     [1] Fem  Fem  Male Male Fem  Male Fem  Male Fem  Fem  Fem  Male Fem  Fem  Male Fem  Fem  Fem 
-    [19] Fem  Male Fem  Male Fem  Fem  Fem  UNK  Fem  Male Male Fem  Male Fem  Male Male
-    Levels: Fem Male UNK
+``` r
+dane[33:66, "sex"]
+```
 
-     [1] 14.61 14.46 14.08 15.37 14.69 14.54 15.22 14.77 14.08 14.46 14.69 14.88 15.30 14.08 14.46
-    [16] 14.69 14.61 14.46 13.71 14.61 14.24 14.77 15.11
+    ##  [1] Fem  Fem  Male Male Fem  Male Fem  Male Fem  Fem  Fem  Male Male Male Male Fem  UNK  Fem  Fem  Male Fem  Male
+    ## [23] Fem  Male Fem  UNK  Fem  Male Male Fem  Male Fem  Male Male
+    ## Levels: Fem Male UNK
+
+``` r
+dane$tarsus[55:77]
+```
+
+    ##  [1] 14.61 14.46 14.08 15.37 14.69 14.54 15.22 14.77 14.08 14.46 14.69 14.88 15.30 14.08 14.46 14.69 14.61 14.46 13.71
+    ## [20] 14.61 14.24 14.77 15.11
 
 Kolumny danych możemy zapisywać do nowych zmiennych. Możemy również
 tworzyć nowe kolumny danych - “odwołując się” za pomocą `$` do kolumny o
@@ -711,19 +932,29 @@ kilka pierwszych wierszy `dane` po modyfikacji (za pomocą `head()`).
 
 **Spodziewany rezultat**
 
-     [1] 551.3757 549.0884 550.1739 550.3067 549.6392 551.8693 549.4878 548.3911 550.0810 549.8523
-    [11] 547.7403 548.9847 551.1920 549.2743 548.3708 551.1921 551.5066 549.7494 552.3874 549.0100
-    [21] 548.5515 550.9192 548.7900 549.6686 548.8435 548.3054 549.3162 549.0850 550.3779 549.4345
-    [31] 550.0111 549.7445 551.4557 551.5648 549.0410 549.3314 549.5218 550.5366 550.2580 549.5741
-    [41] 549.7790 554.1662 549.6629 549.6901 549.6963 548.2706 550.3595 547.2247 551.5836 548.6962
+``` r
+kolor_plaszcza <- dane$back
+kolor_plaszcza[1:50]
+```
 
-      tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa
-    1  13.55 551.3757 R187557      F2102        47  Fem    8.9    park      10.885      0.597    1
-    2  15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682    1
-    3  14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673    1
-    4  14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639    1
-    5  14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631    1
-    6  13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626    1
+    ##  [1] 551.3757 549.0884 550.1739 550.3067 549.6392 551.8693 549.4878 548.3911 550.0810 549.8523 547.7403 548.9847
+    ## [13] 551.1920 549.2743 548.3708 551.1921 551.5066 549.7494 552.3874 549.0100 548.5515 550.9192 548.7900 549.6686
+    ## [25] 548.8435 548.3054 549.3162 549.0850 550.3779 549.4345 550.0111 549.7445 551.4557 551.5648 549.0410 549.3314
+    ## [37] 549.5218 550.5366 550.2580 549.5741 549.7790 554.1662 549.6629 549.6901 549.6963 548.2706 550.3595 547.2247
+    ## [49] 551.5836 548.6962
+
+``` r
+dane$nowa <- 1
+head(dane)
+```
+
+    ##   tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa
+    ## 1  13.55 551.3757 R187557      F2102        47  Fem    8.9    park      10.885      0.597    1
+    ## 2  15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682    1
+    ## 3  14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673    1
+    ## 4  14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639    1
+    ## 5  14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631    1
+    ## 6  13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626    1
 
 **Zadanie** Korzystając z `as.character` utwórz kolumnę `dam_text`,
 zawierającą wersję tekstową zmiennej `dam` (oryginalnie typu `factor`).
@@ -731,22 +962,27 @@ Wyświetl podsumowanie `dane`.
 
 **Spodziewany wynik**
 
-         tarsus           back            dam        fosternest    hatchdate      sex     
-     Min.   :12.57   Min.   :546.7   R187926: 15   G402   : 15   Min.   :44.0   Fem :392  
-     1st Qu.:14.16   1st Qu.:549.2   R187517: 13   A2602  : 12   1st Qu.:47.0   Male:391  
-     Median :14.54   Median :549.9   R187518: 12   A602   : 12   Median :48.0   UNK : 45  
-     Mean   :14.50   Mean   :550.0   R187559: 12   F2102  : 12   Mean   :48.4             
-     3rd Qu.:14.77   3rd Qu.:550.8   Fem20  : 11   A1602  : 11   3rd Qu.:50.0             
-     Max.   :16.81   Max.   :554.2   R187030: 11   B202   : 11   Max.   :55.0             
-                                     (Other):754   (Other):755                            
-         weight         habitat     bill_length      bill_depth          nowa     dam_text        
-     Min.   : 8.600   forest:418   Min.   :10.07   Min.   :0.5130   Min.   :1   Length:828        
-     1st Qu.: 9.500   park  :410   1st Qu.:11.32   1st Qu.:0.6130   1st Qu.:1   Class :character  
-     Median : 9.800                Median :11.64   Median :0.6380   Median :1   Mode  :character  
-     Mean   : 9.789                Mean   :11.60   Mean   :0.6375   Mean   :1                     
-     3rd Qu.:10.000                3rd Qu.:11.84   3rd Qu.:0.6650   3rd Qu.:1                     
-     Max.   :11.400                Max.   :13.40   Max.   :0.7970   Max.   :1                     
-                                                                                                  
+``` r
+dane$dam_text <- as.character(dane$dam)
+summary(dane)
+```
+
+    ##      tarsus           back            dam        fosternest    hatchdate      sex          weight         habitat   
+    ##  Min.   :12.57   Min.   :546.7   R187926: 15   G402   : 15   Min.   :44.0   Fem :373   Min.   : 8.600   forest:418  
+    ##  1st Qu.:14.16   1st Qu.:549.2   R187517: 13   A2602  : 12   1st Qu.:47.0   Male:408   1st Qu.: 9.500   park  :410  
+    ##  Median :14.54   Median :549.9   R187518: 12   A602   : 12   Median :48.0   UNK : 47   Median : 9.800               
+    ##  Mean   :14.50   Mean   :550.0   R187559: 12   F2102  : 12   Mean   :48.4              Mean   : 9.789               
+    ##  3rd Qu.:14.77   3rd Qu.:550.8   Fem20  : 11   A1602  : 11   3rd Qu.:50.0              3rd Qu.:10.000               
+    ##  Max.   :16.81   Max.   :554.2   R187030: 11   B202   : 11   Max.   :55.0              Max.   :11.400               
+    ##                                  (Other):754   (Other):755                                                          
+    ##   bill_length      bill_depth          nowa     dam_text        
+    ##  Min.   :10.07   Min.   :0.5130   Min.   :1   Length:828        
+    ##  1st Qu.:11.32   1st Qu.:0.6130   1st Qu.:1   Class :character  
+    ##  Median :11.64   Median :0.6380   Median :1   Mode  :character  
+    ##  Mean   :11.60   Mean   :0.6375   Mean   :1                     
+    ##  3rd Qu.:11.84   3rd Qu.:0.6650   3rd Qu.:1                     
+    ##  Max.   :13.40   Max.   :0.7970   Max.   :1                     
+    ## 
 
 ◼
 
@@ -768,13 +1004,29 @@ szeregu operatorów logicznych:
 Działanie operatorów logicznych skutkuje zawsze powstaniem wartości
 `TRUE`/`FALSE` - zależnie, czy warunek jest spełniony, czy nie.
 
-    [1] FALSE
+``` r
+2 == 3
+```
 
-    [1] FALSE
+    ## [1] FALSE
 
-    [1] TRUE
+``` r
+4 < 1
+```
 
-    [1] FALSE
+    ## [1] FALSE
+
+``` r
+8 != 8.0001
+```
+
+    ## [1] TRUE
+
+``` r
+!(9 > 5.5)
+```
+
+    ## [1] FALSE
 
 Wymagany warunek umieszczamy w miejscu indeksu wierszy (bo filtrując
 chcemy wybrać lub odfiltrować konkretne *wiersze* danych).
@@ -784,76 +1036,219 @@ chcemy wybrać lub odfiltrować konkretne *wiersze* danych).
 
 **Spodziewany wynik**
 
-        tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa
-    15   16.81 548.3708 R187545      D1002        47  Fem   11.4    park      13.399      0.797    1
-    745  15.98 549.7797 R187537      A2702        47 Male   10.8    park      12.828      0.690    1
-    794  15.60 550.4936 R187155      F2402        47 Male   11.2    park      12.477      0.696    1
-    823  15.45 547.8379   Fem20      H1302        48 Male   10.8    park      12.389      0.728    1
-        dam_text
-    15   R187545
-    745  R187537
-    794  R187155
-    823    Fem20
+``` r
+dane[dane$weight > 3, ]
+```
+
+    ##    tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa dam_text
+    ## 1   13.55 551.3757 R187557      F2102        47  Fem    8.9    park      10.885      0.597    1  R187557
+    ## 2   15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682    1  R187559
+    ## 3   14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673    1  R187568
+    ## 4   14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639    1  R187518
+    ## 5   14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631    1  R187528
+    ## 6   13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626    1  R187945
+    ## 7   13.93 549.4878    Fem3      C1902        47 Male    9.3    park      11.154      0.591    1     Fem3
+    ## 8   15.45 548.3911 R187030      C1302        46  Fem   10.2  forest      12.348      0.675    1  R187030
+    ## 9   14.31 550.0810 R187517       C602        44  Fem    9.5    park      11.434      0.629    1  R187517
+    ## 10  14.46 549.8523 R187523      B2202        46  Fem    9.6  forest      11.564      0.609    1  R187523
+    ## 11  14.99 547.7403 R186902      B1402        52 Male   10.0  forest      11.977      0.636    1  R186902
+    ## 12  14.08 548.9847 R187400      B1002        47  Fem    9.7    park      11.251      0.685    1  R187400
+    ## 13  14.77 551.1920 R187932       B502        49 Male    9.9    park      11.828      0.638    1  R187932
+    ## 14  13.63 549.2743 R187582      D1202        48 Male    9.2  forest      10.904      0.612    1  R187582
+    ## 15  16.81 548.3708 R187545      D1002        47 Male   11.4    park      13.399      0.797    1  R187545
+    ## 16  14.24 551.1921 R187546       D902        47  Fem    9.8    park      11.409      0.679    1  R187546
+    ## 17  14.92 551.5066 R187590       D202        49  Fem   10.1  forest      11.929      0.700    1  R187590
+    ## 18  14.46 549.7494 R187548       E902        48  Fem    9.6    park      11.512      0.669    1  R187548
+    ## 19  15.37 552.3874 R187594       E302        49 Male   10.4  forest      12.259      0.641    1  R187594
+    ## 20  13.40 549.0100 R187588      F2402        47  Fem    8.9    park      10.674      0.577    1  R187588
+    ## 21  14.08 548.5515 R187557      F2102        47  Fem    9.2  forest      11.258      0.621    1  R187557
+    ## 22  13.93 550.9192 R187559      F1902        47  Fem    9.6  forest      11.113      0.638    1  R187559
+    ## 23  13.86 548.7900 R187531      F1702        46  Fem    9.0  forest      11.106      0.599    1  R187531
+    ## 24  14.92 549.6686 R187592      F1102        47 Male   10.1    park      11.899      0.650    1  R187592
+    ## 25  15.22 548.8435 R187575       F902        47 Male   10.4    park      12.163      0.657    1  R187575
+    ## 26  13.63 548.3054 R186912       F102        54 Male    9.5  forest      10.866      0.619    1  R186912
+    ## 27  14.61 549.3162 R187914      G1202        49  Fem    9.8  forest      11.700      0.631    1  R187914
+    ## 28  14.84 549.0850 R187955       G602        49  Fem    9.9  forest      11.842      0.631    1  R187955
+    ## 29  14.31 550.3779 R187535       G102        47 Male    9.7  forest      11.450      0.686    1  R187535
+    ## 30  14.92 549.4345 K983388      H1302        48 Male    9.8  forest      11.929      0.682    1  K983388
+    ## 31  13.93 550.0111   Fem20      H1102        48  Fem    9.4  forest      11.111      0.567    1    Fem20
+    ## 32  14.61 549.7445 R187086       H502        47 Male    9.8    park      11.639      0.606    1  R187086
+    ## 33  14.16 551.4557 R187539       A102        47  Fem    9.8  forest      11.273      0.648    1  R187539
+    ## 34  14.69 551.5648 R187566       A302        47  Fem    9.9  forest      11.774      0.656    1  R187566
+    ## 35  14.69 549.0410 R187569       A502        48 Male   10.0  forest      11.729      0.681    1  R187569
+    ## 36  14.92 549.3314 R187568       A602        47 Male    9.7  forest      11.925      0.640    1  R187568
+    ## 37  14.69 549.5218 R187537      A1002        47  Fem   10.0  forest      11.756      0.656    1  R187537
+    ## 38  14.77 550.5366 R187518      A1302        45 Male   10.1  forest      11.772      0.595    1  R187518
+    ## 39  14.24 550.2580 R187916      A1602        49  Fem    9.5  forest      11.418      0.612    1  R187916
+    ## 40  14.69 549.5741 R186903     A18B02        53 Male   10.2  forest      11.782      0.607    1  R186903
+    ## 41  14.39 549.7790 R187512      A2202        45  Fem   10.0  forest      11.506      0.622    1  R187512
+    ## 42  13.02 554.1662 R187562      A2302        47  Fem    9.0  forest      10.441      0.632    1  R187562
+    ## 43  14.61 549.6629 R187528      A2602        45  Fem   10.0  forest      11.737      0.668    1  R187528
+    ## 44  14.54 549.6901 R187563      A2702        47 Male   10.0    park      11.597      0.703    1  R187563
+    ## 45  14.77 549.6963 R187571      C2602        47 Male   10.2    park      11.823      0.662    1  R187571
+    ## 46  14.77 548.2706 R187945      C2302        49 Male   10.1    park      11.766      0.669    1  R187945
+    ## 47  14.54 550.3595    Fem3      C1902        47 Male    9.5  forest      11.676      0.623    1     Fem3
+    ## 48  14.99 547.2247 R187030      C1302        46  Fem   10.0  forest      12.010      0.639    1  R187030
+    ## 49  14.61 551.5836 R187517       C602        44  UNK    9.7    park      11.696      0.637    1  R187517
+    ## 50  14.54 548.6962 R187523      B2202        46  Fem    9.8  forest      11.585      0.601    1  R187523
+    ## 51  13.93 549.9861 R186902      B1402        52  Fem    9.3  forest      11.190      0.589    1  R186902
+    ## 52  14.61 549.3029 R187958      B1302        51 Male    9.7    park      11.675      0.615    1  R187958
+    ## 53  14.69 549.4065 R187953       B902        51  Fem   10.2  forest      11.812      0.673    1  R187953
+    ## 54  13.93 551.5280 R187932       B502        49 Male    9.4  forest      11.180      0.590    1  R187932
+    ## 55  14.61 548.9334 R187547       B202        48  Fem    9.7  forest      11.687      0.674    1  R187547
+    ## 56  14.46 549.2769 R187947      D1302        51 Male   10.1    park      11.595      0.657    1  R187947
+    ## 57  14.08 550.0670 R187582      D1202        48  Fem    9.2  forest      11.215      0.660    1  R187582
+    ## 58  15.37 548.3958 R187545      D1002        47  UNK   10.4  forest      12.316      0.686    1  R187545
+    ## 59  14.69 548.9010 R187546       D902        47  Fem    9.9  forest      11.796      0.640    1  R187546
+    ## 60  14.54 549.1467 R187239       D802        48 Male    9.9    park      11.654      0.585    1  R187239
+    ## 61  15.22 551.8520 R187590       D202        49 Male    9.7    park      12.150      0.607    1  R187590
+    ## 62  14.77 550.0391 R187521      E2002        46  Fem    9.7    park      11.798      0.673    1  R187521
+    ## 63  14.08 552.0280 R187931      E1902        49 Male    9.8    park      11.315      0.636    1  R187931
+    ## 64  14.46 549.2442 R187577      E1802        47  Fem    9.7    park      11.582      0.650    1  R187577
+    ## 65  14.69 548.1016 R187292      E1602        47 Male    9.9  forest      11.790      0.629    1  R187292
+    ## 66  14.88 549.1921 R187516      E1402        45 Male   10.2  forest      11.908      0.656    1  R187516
+    ## 67  15.30 550.0180 R187166      E1202        47 Male   10.6    park      12.216      0.671    1  R187166
+    ## 68  14.08 548.1312 R187579      E1102        47 Male    9.6  forest      11.225      0.618    1  R187579
+    ## 69  14.46 550.1487 R187548       E902        48 Male    9.9    park      11.524      0.619    1  R187548
+    ## 70  14.69 547.3415 R187155       E702        47  Fem   10.2  forest      11.758      0.627    1  R187155
+    ## 71  14.61 551.7654 R187594       E302        49  Fem    9.8    park      11.684      0.595    1  R187594
+    ## 72  14.46 549.4461 R187588      F2402        47  Fem    9.7    park      11.593      0.598    1  R187588
+    ## 73  13.71 550.9298 R187557      F2102        47  Fem    9.3    park      10.976      0.557    1  R187557
+    ## 74  14.61 548.6685 R187559      F1902        47  Fem    9.8  forest      11.647      0.620    1  R187559
+    ## 75  14.24 551.3127 R187531      F1702        46  Fem    9.8  forest      11.396      0.609    1  R187531
+    ## 76  14.77 549.1432 R187963      F1502        53  Fem    9.9    park      11.801      0.650    1  R187963
+    ## 77  15.11 550.3385 R187592      F1102        47 Male   10.2    park      12.115      0.666    1  R187592
+    ## 78  13.93 547.4217 R187575       F902        47 Male    9.4    park      11.178      0.620    1  R187575
+    ## 79  14.39 551.1328    Fem5       F202        50  Fem    9.6    park      11.513      0.644    1     Fem5
+    ## 80  13.86 550.0156 R187930      G2202        50 Male    9.7    park      11.043      0.597    1  R187930
+    ## 81  14.77 551.0885 R187598      G1602        49 Male    9.9    park      11.798      0.631    1  R187598
+    ## 82  15.30 549.3562 R187914      G1202        49 Male   10.4    park      12.243      0.620    1  R187914
+    ## 83  14.39 549.5822 R187957       G702        51  Fem   10.0  forest      11.543      0.627    1  R187957
+    ##  [ reached 'max' / getOption("max.print") -- omitted 745 rows ]
 
 **Zadanie** Wyświetl wiersze danych, gdzie `weight` ma wartość powyżej
-10.5, i jednocześnie ptak pochodzi z lasu (`habitat == "forest"`).
+2.5, i jednocześnie ptak pochodzi z lasu (`habitat == "forest"`).
 
 **Spodziewany wynik**
 
-        tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa
-    162  15.14 550.3606 R187598      G1602        49 Male   10.6  forest      12.116      0.630    1
-    288  15.45 549.9689 R187030      C1302        46 Male   10.6  forest      12.324      0.706    1
-    685  15.30 549.7819 R187948      E1702        51 Male   10.6  forest      12.308      0.697    1
-    701  15.37 550.9644 R187964      F1502        53 Male   10.7  forest      12.233      0.665    1
-        dam_text
-    162  R187598
-    288  R187030
-    685  R187948
-    701  R187964
+``` r
+dane[dane$weight > 2.5 & dane$habitat == "forest", ]
+```
+
+    ##     tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa dam_text
+    ## 2    15.07 549.0884 R187559      F1902        47 Male   10.5  forest      12.056      0.682    1  R187559
+    ## 3    14.99 550.1739 R187568       A602        47 Male    9.9  forest      12.000      0.673    1  R187568
+    ## 4    14.69 550.3067 R187518      A1302        45 Male    9.7  forest      11.733      0.639    1  R187518
+    ## 5    14.46 549.6392 R187528      A2602        45  Fem    9.7  forest      11.565      0.631    1  R187528
+    ## 6    13.93 551.8693 R187945      C2302        49  Fem    9.3  forest      11.165      0.626    1  R187945
+    ## 8    15.45 548.3911 R187030      C1302        46  Fem   10.2  forest      12.348      0.675    1  R187030
+    ## 10   14.46 549.8523 R187523      B2202        46  Fem    9.6  forest      11.564      0.609    1  R187523
+    ## 11   14.99 547.7403 R186902      B1402        52 Male   10.0  forest      11.977      0.636    1  R186902
+    ## 14   13.63 549.2743 R187582      D1202        48 Male    9.2  forest      10.904      0.612    1  R187582
+    ## 17   14.92 551.5066 R187590       D202        49  Fem   10.1  forest      11.929      0.700    1  R187590
+    ## 19   15.37 552.3874 R187594       E302        49 Male   10.4  forest      12.259      0.641    1  R187594
+    ## 21   14.08 548.5515 R187557      F2102        47  Fem    9.2  forest      11.258      0.621    1  R187557
+    ## 22   13.93 550.9192 R187559      F1902        47  Fem    9.6  forest      11.113      0.638    1  R187559
+    ## 23   13.86 548.7900 R187531      F1702        46  Fem    9.0  forest      11.106      0.599    1  R187531
+    ## 26   13.63 548.3054 R186912       F102        54 Male    9.5  forest      10.866      0.619    1  R186912
+    ## 27   14.61 549.3162 R187914      G1202        49  Fem    9.8  forest      11.700      0.631    1  R187914
+    ## 28   14.84 549.0850 R187955       G602        49  Fem    9.9  forest      11.842      0.631    1  R187955
+    ## 29   14.31 550.3779 R187535       G102        47 Male    9.7  forest      11.450      0.686    1  R187535
+    ## 30   14.92 549.4345 K983388      H1302        48 Male    9.8  forest      11.929      0.682    1  K983388
+    ## 31   13.93 550.0111   Fem20      H1102        48  Fem    9.4  forest      11.111      0.567    1    Fem20
+    ## 33   14.16 551.4557 R187539       A102        47  Fem    9.8  forest      11.273      0.648    1  R187539
+    ## 34   14.69 551.5648 R187566       A302        47  Fem    9.9  forest      11.774      0.656    1  R187566
+    ## 35   14.69 549.0410 R187569       A502        48 Male   10.0  forest      11.729      0.681    1  R187569
+    ## 36   14.92 549.3314 R187568       A602        47 Male    9.7  forest      11.925      0.640    1  R187568
+    ## 37   14.69 549.5218 R187537      A1002        47  Fem   10.0  forest      11.756      0.656    1  R187537
+    ## 38   14.77 550.5366 R187518      A1302        45 Male   10.1  forest      11.772      0.595    1  R187518
+    ## 39   14.24 550.2580 R187916      A1602        49  Fem    9.5  forest      11.418      0.612    1  R187916
+    ## 40   14.69 549.5741 R186903     A18B02        53 Male   10.2  forest      11.782      0.607    1  R186903
+    ## 41   14.39 549.7790 R187512      A2202        45  Fem   10.0  forest      11.506      0.622    1  R187512
+    ## 42   13.02 554.1662 R187562      A2302        47  Fem    9.0  forest      10.441      0.632    1  R187562
+    ## 43   14.61 549.6629 R187528      A2602        45  Fem   10.0  forest      11.737      0.668    1  R187528
+    ## 47   14.54 550.3595    Fem3      C1902        47 Male    9.5  forest      11.676      0.623    1     Fem3
+    ## 48   14.99 547.2247 R187030      C1302        46  Fem   10.0  forest      12.010      0.639    1  R187030
+    ## 50   14.54 548.6962 R187523      B2202        46  Fem    9.8  forest      11.585      0.601    1  R187523
+    ## 51   13.93 549.9861 R186902      B1402        52  Fem    9.3  forest      11.190      0.589    1  R186902
+    ## 53   14.69 549.4065 R187953       B902        51  Fem   10.2  forest      11.812      0.673    1  R187953
+    ## 54   13.93 551.5280 R187932       B502        49 Male    9.4  forest      11.180      0.590    1  R187932
+    ## 55   14.61 548.9334 R187547       B202        48  Fem    9.7  forest      11.687      0.674    1  R187547
+    ## 57   14.08 550.0670 R187582      D1202        48  Fem    9.2  forest      11.215      0.660    1  R187582
+    ## 58   15.37 548.3958 R187545      D1002        47  UNK   10.4  forest      12.316      0.686    1  R187545
+    ## 59   14.69 548.9010 R187546       D902        47  Fem    9.9  forest      11.796      0.640    1  R187546
+    ## 65   14.69 548.1016 R187292      E1602        47 Male    9.9  forest      11.790      0.629    1  R187292
+    ## 66   14.88 549.1921 R187516      E1402        45 Male   10.2  forest      11.908      0.656    1  R187516
+    ## 68   14.08 548.1312 R187579      E1102        47 Male    9.6  forest      11.225      0.618    1  R187579
+    ## 70   14.69 547.3415 R187155       E702        47  Fem   10.2  forest      11.758      0.627    1  R187155
+    ## 74   14.61 548.6685 R187559      F1902        47  Fem    9.8  forest      11.647      0.620    1  R187559
+    ## 75   14.24 551.3127 R187531      F1702        46  Fem    9.8  forest      11.396      0.609    1  R187531
+    ## 83   14.39 549.5822 R187957       G702        51  Fem   10.0  forest      11.543      0.627    1  R187957
+    ## 85   14.01 548.6694 R187552       G502        47  Fem    9.5  forest      11.174      0.611    1  R187552
+    ## 87   13.86 549.2066 R187527      H3602        45  Fem    9.4  forest      11.053      0.582    1  R187527
+    ## 88   13.86 548.9382 R187595      H3202        48  Fem    9.3  forest      11.126      0.579    1  R187595
+    ## 90   14.54 549.3613 K983388      H1302        48 Male    9.5  forest      11.668      0.622    1  K983388
+    ## 91   14.54 549.2358   Fem20      H1102        48 Male    9.9  forest      11.622      0.665    1    Fem20
+    ## 92   14.54 548.4885 R187086       H502        47 Male    9.8  forest      11.628      0.604    1  R187086
+    ## 93   14.08 549.1360 R187539       A102        47 Male    9.5  forest      11.260      0.611    1  R187539
+    ## 95   15.30 550.7461 R187569       A502        48 Male   10.3  forest      12.214      0.591    1  R187569
+    ## 96   14.24 549.9236 R187568       A602        47  Fem    9.7  forest      11.367      0.573    1  R187568
+    ## 97   14.77 548.7549 R187537      A1002        47  Fem    9.8  forest      11.878      0.681    1  R187537
+    ## 98   14.12 548.9031 R187518      A1302        45 Male    9.4  forest      11.308      0.601    1  R187518
+    ## 101  14.46 547.4245 R186903     A18B02        53 Male    9.6  forest      11.557      0.598    1  R186903
+    ## 102  13.71 551.4740 R187512      A2202        45  Fem    9.1  forest      10.975      0.610    1  R187512
+    ## 103  13.93 550.9829 R187562      A2302        47 Male    9.8  forest      11.122      0.581    1  R187562
+    ## 105  14.46 549.7711 R187563      A2702        47 Male    9.5  forest      11.538      0.630    1  R187563
+    ## 108  14.84 550.3242 R187945      C2302        49 Male    9.8  forest      11.875      0.654    1  R187945
+    ## 109  14.69 550.3553    Fem3      C1902        47 Male    9.6  forest      11.738      0.641    1     Fem3
+    ## 110  15.07 550.4161 R187030      C1302        46  Fem   10.3  forest      12.052      0.664    1  R187030
+    ## 113  14.61 549.8967 R187920       C202        50  Fem    9.9  forest      11.720      0.680    1  R187920
+    ## 117  14.84 550.6912 R187927      B2102        50 Male   10.2  forest      11.854      0.672    1  R187927
+    ## 118  14.77 551.8031 R187942      B1902        50 Male   10.0  forest      11.828      0.675    1  R187942
+    ## 122  14.69 550.0155 R186902      B1402        52 Male    9.9  forest      11.760      0.621    1  R186902
+    ## 125  15.22 550.7279 R187400      B1002        47 Male   10.3  forest      12.131      0.663    1  R187400
+    ## 127  14.46 551.1592 R187932       B502        49  Fem    9.5  forest      11.614      0.625    1  R187932
+    ## 128  14.46 548.5005 R187547       B202        48  Fem    9.9  forest      11.622      0.648    1  R187547
+    ## 129  14.08 549.7397 R187947      D1302        51  Fem    9.5  forest      11.239      0.601    1  R187947
+    ## 131  14.16 548.3601 R187964      D1102        53  Fem    9.7  forest      11.327      0.592    1  R187964
+    ## 133  14.77 550.4228 R187546       D902        47  Fem   10.2  forest      11.834      0.668    1  R187546
+    ## 134  14.61 548.7633 R187239       D802        48 Male   10.0  forest      11.689      0.685    1  R187239
+    ## 135  14.54 553.7773 R187940       D402        50  Fem   10.0  forest      11.626      0.639    1  R187940
+    ## 136  15.52 551.7863 R187590       D202        49 Male   10.5  forest      12.394      0.725    1  R187590
+    ## 138  15.37 549.9879 R187521      E2002        46 Male   10.1  forest      12.295      0.747    1  R187521
+    ## 139  13.78 550.2000 R187931      E1902        49  Fem    9.4  forest      11.039      0.605    1  R187931
+    ## 141  14.46 550.6194 R188000      E1702        51  Fem    9.8  forest      11.538      0.642    1  R188000
+    ## 142  14.77 547.1794 R187292      E1602        47  Fem   10.0  forest      11.850      0.694    1  R187292
+    ##  [ reached 'max' / getOption("max.print") -- omitted 335 rows ]
 
 **Zadanie** Wyświetl wiersze danych, dany osobnik pochodzi z gniazda
 (`fosternest`) nr H102 lub D402.
 
 **Spodziewany wynik**
 
-        tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa
-    135  14.54 553.7773 R187940       D402        50  Fem   10.0  forest      11.626      0.639    1
-    221  15.14 553.3317 R187940       D402        50 Male   10.3  forest      12.104      0.645    1
-    313  14.69 550.5040 R187940       D402        50 Male   10.1    park      11.755      0.669    1
-    358  14.92 549.6806 R187009       H102        46 Male   10.0  forest      11.937      0.648    1
-    371  14.61 552.3244 R187927       D402        50  UNK    9.6  forest      11.686      0.676    1
-    381  14.77 550.9502 R187927       D402        50  Fem   10.3    park      11.825      0.684    1
-    385  14.46 551.0132 R187001       H102        46 Male   10.0  forest      11.591      0.601    1
-    396  14.39 551.7571 R187927       D402        50  Fem    9.4  forest      11.469      0.678    1
-    416  14.39 550.8274 R187001       H102        46  Fem    9.6    park      11.493      0.672    1
-    473  13.93 550.6763 R187001       H102        46 Male    9.8    park      11.123      0.661    1
-    509  14.92 552.4517 R187927       D402        50 Male    9.9    park      11.922      0.668    1
-    548  14.46 552.0074 R187001       H102        46  Fem    9.6  forest      11.567      0.607    1
-    591  14.39 550.8278 R187927       D402        50  Fem   10.1    park      11.477      0.655    1
-    634  14.24 549.2437 R187001       H102        46  Fem    9.8    park      11.437      0.659    1
-    679  15.45 550.7465 R187927       D402        50 Male    9.8    park      12.298      0.671    1
-    729  14.01 551.0765 R187001       H102        46  Fem    9.3    park      11.228      0.589    1
-    774  14.84 551.6591 R187927       D402        50 Male   10.2  forest      11.910      0.617    1
-    828  14.92 548.2735 R187001       H102        46 Male   10.2    park      11.926      0.652    1
-        dam_text
-    135  R187940
-    221  R187940
-    313  R187940
-    358  R187009
-    371  R187927
-    381  R187927
-    385  R187001
-    396  R187927
-    416  R187001
-    473  R187001
-    509  R187927
-    548  R187001
-    591  R187927
-    634  R187001
-    679  R187927
-    729  R187001
-    774  R187927
-    828  R187001
+``` r
+dane[dane$fosternest == "H102" | dane$fosternest == "D402", ]
+```
+
+    ##     tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa dam_text
+    ## 135  14.54 553.7773 R187940       D402        50  Fem   10.0  forest      11.626      0.639    1  R187940
+    ## 221  15.14 553.3317 R187940       D402        50 Male   10.3  forest      12.104      0.645    1  R187940
+    ## 313  14.69 550.5040 R187940       D402        50 Male   10.1    park      11.755      0.669    1  R187940
+    ## 358  14.92 549.6806 R187009       H102        46 Male   10.0  forest      11.937      0.648    1  R187009
+    ## 371  14.61 552.3244 R187927       D402        50  UNK    9.6  forest      11.686      0.676    1  R187927
+    ## 381  14.77 550.9502 R187927       D402        50  Fem   10.3    park      11.825      0.684    1  R187927
+    ## 385  14.46 551.0132 R187001       H102        46 Male   10.0  forest      11.591      0.601    1  R187001
+    ## 396  14.39 551.7571 R187927       D402        50  Fem    9.4  forest      11.469      0.678    1  R187927
+    ## 416  14.39 550.8274 R187001       H102        46  Fem    9.6    park      11.493      0.672    1  R187001
+    ## 473  13.93 550.6763 R187001       H102        46 Male    9.8    park      11.123      0.661    1  R187001
+    ## 509  14.92 552.4517 R187927       D402        50 Male    9.9    park      11.922      0.668    1  R187927
+    ## 548  14.46 552.0074 R187001       H102        46  Fem    9.6  forest      11.567      0.607    1  R187001
+    ## 591  14.39 550.8278 R187927       D402        50  Fem   10.1    park      11.477      0.655    1  R187927
+    ## 634  14.24 549.2437 R187001       H102        46  Fem    9.8    park      11.437      0.659    1  R187001
+    ## 679  15.45 550.7465 R187927       D402        50 Male    9.8    park      12.298      0.671    1  R187927
+    ## 729  14.01 551.0765 R187001       H102        46  Fem    9.3    park      11.228      0.589    1  R187001
+    ## 774  14.84 551.6591 R187927       D402        50 Male   10.2  forest      11.910      0.617    1  R187927
+    ## 828  14.92 548.2735 R187001       H102        46 Male   10.2    park      11.926      0.652    1  R187001
 
 **Zadanie** Wyświetl wiersze danych, gdzie dany osobnik pochodzi z
 gniazda (`fosternest`) nr H102 lub D402, i jednocześnie usuń wszystkie
@@ -861,42 +1256,41 @@ ptaki o płci męskiej (`Male` w `sex`).
 
 **Spodziewany wynik**
 
-        tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa
-    135  14.54 553.7773 R187940       D402        50 Fem   10.0  forest      11.626      0.639    1
-    371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1
-    381  14.77 550.9502 R187927       D402        50 Fem   10.3    park      11.825      0.684    1
-    396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1
-    416  14.39 550.8274 R187001       H102        46 Fem    9.6    park      11.493      0.672    1
-    548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1
-    591  14.39 550.8278 R187927       D402        50 Fem   10.1    park      11.477      0.655    1
-    634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1
-    729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1
-        dam_text
-    135  R187940
-    371  R187927
-    381  R187927
-    396  R187927
-    416  R187001
-    548  R187001
-    591  R187927
-    634  R187001
-    729  R187001
+``` r
+dane[(dane$fosternest == "H102" | dane$fosternest == "D402") & dane$sex != "Male", ]
+```
+
+    ##     tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa dam_text
+    ## 135  14.54 553.7773 R187940       D402        50 Fem   10.0  forest      11.626      0.639    1  R187940
+    ## 371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1  R187927
+    ## 381  14.77 550.9502 R187927       D402        50 Fem   10.3    park      11.825      0.684    1  R187927
+    ## 396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1  R187927
+    ## 416  14.39 550.8274 R187001       H102        46 Fem    9.6    park      11.493      0.672    1  R187001
+    ## 548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1  R187001
+    ## 591  14.39 550.8278 R187927       D402        50 Fem   10.1    park      11.477      0.655    1  R187927
+    ## 634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1  R187001
+    ## 729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1  R187001
 
 **Zadanie** Jak wyżej, ale interesują Cię tylko kolumny `hatchdate` oraz
 `dam`.
 
 **Spodziewany wynik**
 
-        hatchdate     dam
-    135        50 R187940
-    371        50 R187927
-    381        50 R187927
-    396        50 R187927
-    416        46 R187001
-    548        46 R187001
-    591        50 R187927
-    634        46 R187001
-    729        46 R187001
+``` r
+dane[(dane$fosternest == "H102" | dane$fosternest == "D402") & dane$sex != "Male",
+     c("hatchdate", "dam")]
+```
+
+    ##     hatchdate     dam
+    ## 135        50 R187940
+    ## 371        50 R187927
+    ## 381        50 R187927
+    ## 396        50 R187927
+    ## 416        46 R187001
+    ## 548        46 R187001
+    ## 591        50 R187927
+    ## 634        46 R187001
+    ## 729        46 R187001
 
 Zamiast używać konwencji indeksowania (`[]`) możemy wykorzystać funkcję
 `subset()`. Poza nazwą filtrowanego obiektu, podajemy w niej potrzebne
@@ -911,38 +1305,36 @@ danych.
 
 **Spodziewany wynik**
 
-        tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa
-    135  14.54 553.7773 R187940       D402        50 Fem   10.0  forest      11.626      0.639    1
-    371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1
-    381  14.77 550.9502 R187927       D402        50 Fem   10.3    park      11.825      0.684    1
-    396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1
-    416  14.39 550.8274 R187001       H102        46 Fem    9.6    park      11.493      0.672    1
-    548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1
-    591  14.39 550.8278 R187927       D402        50 Fem   10.1    park      11.477      0.655    1
-    634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1
-    729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1
-        dam_text
-    135  R187940
-    371  R187927
-    381  R187927
-    396  R187927
-    416  R187001
-    548  R187001
-    591  R187927
-    634  R187001
-    729  R187001
+``` r
+dane2 <- subset(dane,
+       (fosternest == "H102" | fosternest == "D402") & sex != "Male")
+dane2
+```
+
+    ##     tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa dam_text
+    ## 135  14.54 553.7773 R187940       D402        50 Fem   10.0  forest      11.626      0.639    1  R187940
+    ## 371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1  R187927
+    ## 381  14.77 550.9502 R187927       D402        50 Fem   10.3    park      11.825      0.684    1  R187927
+    ## 396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1  R187927
+    ## 416  14.39 550.8274 R187001       H102        46 Fem    9.6    park      11.493      0.672    1  R187001
+    ## 548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1  R187001
+    ## 591  14.39 550.8278 R187927       D402        50 Fem   10.1    park      11.477      0.655    1  R187927
+    ## 634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1  R187001
+    ## 729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1  R187001
 
 **Zadanie** Za pomocą `subset()`, wybierz wiersze danych z `dane` z
 samicami, które mają najdłuższy i najkrótszy skok (`tarsus`).
 
 **Spodziewany wynik**
 
-        tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa
-    15   16.81 548.3708 R187545      D1002        47 Fem   11.4    park      13.399      0.797    1
-    121  12.57 551.1584 R186908      B1602        53 Fem    8.6    park      10.071      0.574    1
-        dam_text
-    15   R187545
-    121  R186908
+``` r
+subset(dane,
+       tarsus == max(dane$tarsus) | tarsus == min(dane$tarsus))
+```
+
+    ##     tarsus     back     dam fosternest hatchdate  sex weight habitat bill_length bill_depth nowa dam_text
+    ## 15   16.81 548.3708 R187545      D1002        47 Male   11.4    park      13.399      0.797    1  R187545
+    ## 121  12.57 551.1584 R186908      B1602        53  Fem    8.6    park      10.071      0.574    1  R186908
 
 ◼
 
@@ -953,87 +1345,86 @@ możemy się ich pozbyć z naszego zestawu danych. Najpierw wprowadźmy do
 naszych nowych danych `dane2` kilka brakujących obserwacji w wierszach
 3, 5 i 7 kolumny nr 2, oraz w wierszu 1 kolumny 3:
 
-        tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa
-    135  14.54 553.7773    <NA>       D402        50 Fem   10.0  forest      11.626      0.639    1
-    371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1
-    381  14.77       NA R187927       D402        50 Fem   10.3    park      11.825      0.684    1
-    396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1
-    416  14.39       NA R187001       H102        46 Fem    9.6    park      11.493      0.672    1
-    548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1
-    591  14.39       NA R187927       D402        50 Fem   10.1    park      11.477      0.655    1
-    634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1
-    729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1
-        dam_text
-    135  R187940
-    371  R187927
-    381  R187927
-    396  R187927
-    416  R187001
-    548  R187001
-    591  R187927
-    634  R187001
-    729  R187001
+``` r
+dane2[c(3, 5, 7), 2] <- NA
+dane2[1, 3] <- NA
+dane2
+```
 
-         tarsus           back            dam      fosternest   hatchdate       sex   
-     Min.   :14.01   Min.   :549.2   R187001:4   D402   :5    Min.   :46.00   Fem :8  
-     1st Qu.:14.39   1st Qu.:551.2   R187927:4   H102   :4    1st Qu.:46.00   Male:0  
-     Median :14.39   Median :551.9   Fem2   :0   A1002  :0    Median :50.00   UNK :1  
-     Mean   :14.42   Mean   :551.7   Fem20  :0   A102   :0    Mean   :48.22           
-     3rd Qu.:14.54   3rd Qu.:552.2   Fem3   :0   A1202  :0    3rd Qu.:50.00           
-     Max.   :14.77   Max.   :553.8   (Other):0   A1302  :0    Max.   :50.00           
-                     NA's   :3       NA's   :1   (Other):0                            
-         weight         habitat   bill_length      bill_depth         nowa     dam_text        
-     Min.   : 9.300   forest:4   Min.   :11.23   Min.   :0.589   Min.   :1   Length:9          
-     1st Qu.: 9.600   park  :5   1st Qu.:11.47   1st Qu.:0.639   1st Qu.:1   Class :character  
-     Median : 9.600              Median :11.49   Median :0.659   Median :1   Mode  :character  
-     Mean   : 9.744              Mean   :11.53   Mean   :0.651   Mean   :1                     
-     3rd Qu.:10.000              3rd Qu.:11.63   3rd Qu.:0.676   3rd Qu.:1                     
-     Max.   :10.300              Max.   :11.82   Max.   :0.684   Max.   :1                     
-                                                                                               
+    ##     tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa dam_text
+    ## 135  14.54 553.7773    <NA>       D402        50 Fem   10.0  forest      11.626      0.639    1  R187940
+    ## 371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1  R187927
+    ## 381  14.77       NA R187927       D402        50 Fem   10.3    park      11.825      0.684    1  R187927
+    ## 396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1  R187927
+    ## 416  14.39       NA R187001       H102        46 Fem    9.6    park      11.493      0.672    1  R187001
+    ## 548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1  R187001
+    ## 591  14.39       NA R187927       D402        50 Fem   10.1    park      11.477      0.655    1  R187927
+    ## 634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1  R187001
+    ## 729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1  R187001
+
+``` r
+summary(dane2)
+```
+
+    ##      tarsus           back            dam      fosternest   hatchdate       sex        weight         habitat 
+    ##  Min.   :14.01   Min.   :549.2   R187001:4   D402   :5    Min.   :46.00   Fem :8   Min.   : 9.300   forest:4  
+    ##  1st Qu.:14.39   1st Qu.:551.2   R187927:4   H102   :4    1st Qu.:46.00   Male:0   1st Qu.: 9.600   park  :5  
+    ##  Median :14.39   Median :551.9   Fem2   :0   A1002  :0    Median :50.00   UNK :1   Median : 9.600             
+    ##  Mean   :14.42   Mean   :551.7   Fem20  :0   A102   :0    Mean   :48.22            Mean   : 9.744             
+    ##  3rd Qu.:14.54   3rd Qu.:552.2   Fem3   :0   A1202  :0    3rd Qu.:50.00            3rd Qu.:10.000             
+    ##  Max.   :14.77   Max.   :553.8   (Other):0   A1302  :0    Max.   :50.00            Max.   :10.300             
+    ##                  NA's   :3       NA's   :1   (Other):0                                                        
+    ##   bill_length      bill_depth         nowa     dam_text        
+    ##  Min.   :11.23   Min.   :0.589   Min.   :1   Length:9          
+    ##  1st Qu.:11.47   1st Qu.:0.639   1st Qu.:1   Class :character  
+    ##  Median :11.49   Median :0.659   Median :1   Mode  :character  
+    ##  Mean   :11.53   Mean   :0.651   Mean   :1                     
+    ##  3rd Qu.:11.63   3rd Qu.:0.676   3rd Qu.:1                     
+    ##  Max.   :11.82   Max.   :0.684   Max.   :1                     
+    ## 
 
 **Zadanie** Użyj funkcji `is.na()` na danych z kolumny 2.
 
 **Spodziewany wynik**
 
-    [1] FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE
+``` r
+is.na(dane2[, 2])
+```
+
+    ## [1] FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE
 
 Funkcja ta testuje czy dana wartość (lub elementy wektora) są
 wartościami brakującymi. Możemy wykorzystać filtrowanie zestawów danych,
 by wyświetlić tylko te wiersze, gdzie dana zmienna nie ma wartości
 brakujących:
 
-        tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa
-    135  14.54 553.7773    <NA>       D402        50 Fem   10.0  forest      11.626      0.639    1
-    371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1
-    396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1
-    548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1
-    634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1
-    729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1
-        dam_text
-    135  R187940
-    371  R187927
-    396  R187927
-    548  R187001
-    634  R187001
-    729  R187001
+``` r
+subset(dane2, !is.na(back))
+```
+
+    ##     tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa dam_text
+    ## 135  14.54 553.7773    <NA>       D402        50 Fem   10.0  forest      11.626      0.639    1  R187940
+    ## 371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1  R187927
+    ## 396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1  R187927
+    ## 548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1  R187001
+    ## 634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1  R187001
+    ## 729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1  R187001
 
 **Zadanie** Szybszym sposobem jest użycie funkcji `na.omit()` dla całej
 tabeli danych. Spróbuj tego sposobu z naszymi danymi `dane2`.
 
 **Spodziewany wynik**
 
-        tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa
-    371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1
-    396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1
-    548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1
-    634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1
-    729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1
-        dam_text
-    371  R187927
-    396  R187927
-    548  R187001
-    634  R187001
-    729  R187001
+``` r
+na.omit(dane2)
+```
+
+    ##     tarsus     back     dam fosternest hatchdate sex weight habitat bill_length bill_depth nowa dam_text
+    ## 371  14.61 552.3244 R187927       D402        50 UNK    9.6  forest      11.686      0.676    1  R187927
+    ## 396  14.39 551.7571 R187927       D402        50 Fem    9.4  forest      11.469      0.678    1  R187927
+    ## 548  14.46 552.0074 R187001       H102        46 Fem    9.6  forest      11.567      0.607    1  R187001
+    ## 634  14.24 549.2437 R187001       H102        46 Fem    9.8    park      11.437      0.659    1  R187001
+    ## 729  14.01 551.0765 R187001       H102        46 Fem    9.3    park      11.228      0.589    1  R187001
 
 Zauważ, że pozbyliśmy się \*\*wszystkich\* wierszy zawierających choć
 jedną wartość `NA`. Często dokładnie o to nam chodzi, ale pamiętajmy, że
@@ -1047,9 +1438,17 @@ znaleźć rozwiązanie pozwalające na obliczenie prawidłowej wartości
 
 **Spodziewany wynik**
 
-    [1] NA
+``` r
+mean(dane2$back)
+```
 
-    [1] 551.6977
+    ## [1] NA
+
+``` r
+mean(dane2$back, na.rm = T)
+```
+
+    ## [1] 551.6977
 
 Dokładnie ten sam problem (i to samo rozwiązanie) dotyczy takich
 funkcji, jak `min()`, `max()`, `sd()`, `median()` czy `var()`.

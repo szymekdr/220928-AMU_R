@@ -1,21 +1,21 @@
 -   [Zanim zaczniemy](#zanim-zaczniemy)
     -   [0. Przydatne zasoby pomocowe w pracy z `R` - część
-        trzecia](#przydatne-zasoby-pomocowe-w-pracy-z-r---część-trzecia)
--   [A. Regresja, ANOVA + ANCOVA](#a.-regresja-anova-ancova)
-    -   [1. Regresja wielokrotna](#regresja-wielokrotna)
+        trzecia](#0-przydatne-zasoby-pomocowe-w-pracy-z-r---część-trzecia)
+-   [A. Regresja, ANOVA + ANCOVA](#a-regresja-anova-ancova)
+    -   [1. Regresja wielokrotna](#1-regresja-wielokrotna)
     -   [2. Regresja wielokrotna *via* seleckja
-        modeli](#regresja-wielokrotna-via-seleckja-modeli)
-    -   [3. ANOVA](#anova)
--   [B. Model uogólniony](#b.-model-uogólniony)
-    -   [1. Regresja logistyczna - GLM](#regresja-logistyczna---glm)
--   [C. Model mieszany](#c.-model-mieszany)
+        modeli](#2-regresja-wielokrotna-via-seleckja-modeli)
+    -   [3. ANOVA](#3-anova)
+-   [B. Model uogólniony](#b-model-uogólniony)
+    -   [1. Regresja logistyczna - GLM](#1-regresja-logistyczna---glm)
+-   [C. Model mieszany](#c-model-mieszany)
     -   [1. Czy skok jest
-        odziedziczalny?](#czy-skok-jest-odziedziczalny)
+        odziedziczalny?](#1-czy-skok-jest-odziedziczalny)
     -   [2. Czy temperatura różnie wpływ na tempo wzrostu u różnych
         gatunków
-        plnaktonu?](#czy-temperatura-różnie-wpływ-na-tempo-wzrostu-u-różnych-gatunków-plnaktonu)
+        plnaktonu?](#2-czy-temperatura-różnie-wpływ-na-tempo-wzrostu-u-różnych-gatunków-plnaktonu)
 -   [D. Expressem przez
-    *bootstrapping*](#d.-expressem-przez-bootstrapping)
+    *bootstrapping*](#d-expressem-przez-bootstrapping)
 
 # Zanim zaczniemy
 
