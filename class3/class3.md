@@ -21,9 +21,20 @@
 
 ## 0. Przydatne zasoby pomocowe w pracy z `R` - część trzecia
 
--   [Podręcznik `tidyverse`](https://r4ds.had.co.nz/)
--   [`dplyr`
-    cheat-sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
+-   [Modele liniowe w ekologii -
+    przegląd](https://www.sciencedirect.com/science/article/abs/pii/S0169534709000196)
+-   [Dlaczego nie musimy zagnieżdzać
+    zmiennych?](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.2041-210x.2012.00251.x)
+-   [Równoważność metod LM oraz prostych testów
+    statystycznych](https://lindeloev.github.io/tests-as-linear/)
+-   [Modele mieszane z
+    `lmer()`](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf)
+-   [“Statistical rethinking” - książka o modelach liniowych no.
+    1](https://bookdown.org/content/4857/)
+-   [Linear models in R -
+    wstęp](https://ucdavis-bioinformatics-training.github.io/2019-March-Bioinformatics-Prerequisites/thursday/linear_models.html)
+-   [Wszystko co należy wiedzieć o
+    GLMM](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
 
 ------------------------------------------------------------------------
 
@@ -56,13 +67,14 @@ podstawowych elementów formuły, wraz z ich interpretacją:
 | `y ~ x + z + x:z`   | Alternatywny zapis poprzedniego modelu                                                                                                          |
 | `y ~ (x + z + a)^2` | Model z 3 czynnikami, i ich wszystkimi interakcjami 2 stopnia (zapis równoważny `x + z + a + x:a + x:z + z:a`)                                  |
 | `y ~ x * z * a`     | Model z 3 czynnikami i ich wszystkimi interakcjami (łącznie z `x:z:a`)                                                                          |
-| `y ~ x|z`           | Model ze zmienną `x` zagnieżdżoną w `z`                                                                                                         |
+| `y ~ x/z`           | Model ze zmienną `z` zagnieżdżoną w `x`                                                                                                         |
+| `y ~ x + (1|z)`     | Model z efektem losowym `z` (notacja `lmer()` oraz `lme()`)                                                                                     |
 
 **Zadanie** Opierając się na prostej regresji skonstruuj model, w którym
 na `tarsus` potencjalnie wpływają: `hatchdate`, `sex`, `habitat`,
-interakcja `habitat` x `hatchdate`, interakcja `sex` x `hatchdate`.
-Zapisz go w nowym obiekcie - czy którykolwiek czynnik modelu jest
-istotny statystycznie?
+interakcja `habitat`×`hatchdate`, interakcja `sex`×`hatchdate`. Zapisz
+go w nowym obiekcie - czy którykolwiek czynnik modelu jest istotny
+statystycznie?
 
 **Oczekiwany wynik**
 
@@ -289,7 +301,7 @@ wyglądają wyniki takiego modelu?
     ## Multiple R-squared:  0.2891, Adjusted R-squared:  0.2071 
     ## F-statistic: 3.525 on 3 and 26 DF,  p-value: 0.02881
 
-**Zadanie** Porównaj uzyskany output z wynikiem użycia w podobny sposób
+**Zadanie** Poarównaj uzyskany output z wynikiem użycia w podobny sposób
 funkcji `aov()`.
 
 **Oczekiwany wynik**

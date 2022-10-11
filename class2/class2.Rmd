@@ -24,7 +24,7 @@ if(knitr::is_html_output(excludes = c("markdown", "gfm"))) {
 
 # Zanim zaczniemy
 
-## 0. Przydatne zasoby pomocowe w pracy z `R` - część pierwsza
+## 0. Przydatne zasoby pomocowe w pracy z `R` - część druga
 
 -   [Podręcznik `tidyverse`](https://r4ds.had.co.nz/)
 -   [`dplyr` cheat-sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
